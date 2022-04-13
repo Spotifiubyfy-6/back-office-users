@@ -1,5 +1,6 @@
-import React from 'react'
+import React from "react";
 import GetUsers from "./components/Getusers";
+import LogIn from "./components/LogIn";
 
 class App extends React.Component {
     constructor(props) {
@@ -11,9 +12,9 @@ class App extends React.Component {
         if (!this.state.loggedIn) {
             return (
                 <div>
-                    Hello World!
+                    <LogIn/>
                 </div>
-            )
+            );
         } else {
             return (
                 <div>

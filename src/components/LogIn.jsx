@@ -1,4 +1,5 @@
 import React from 'react'
+import App from "../App";
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -14,3 +15,5 @@ class LogIn extends React.Component {
         );
     }
 }
+
+export default LogIn;
