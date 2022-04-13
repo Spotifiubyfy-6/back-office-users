@@ -8,11 +8,19 @@ class App extends React.Component {
     }
 
     render() {
-        return (
-            <div>
-                <GetUsers/>
-            </div>
-        );
+        if (!this.state.loggedIn) {
+            return (
+                <div>
+                    Hello World!
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <GetUsers/>
+                </div>
+            );
+        }
     }
 }
 
