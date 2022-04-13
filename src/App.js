@@ -1,11 +1,14 @@
+import React from 'react'
 import GetUsers from "./components/Getusers";
 
-function App() {
-  return (
-    <div>
-      <GetUsers/>
-    </div>
-  );
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                <GetUsers/>
+            </div>
+        );
+    }
 }
 
 export default App;
