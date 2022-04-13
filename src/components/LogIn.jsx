@@ -1,5 +1,5 @@
 import React from 'react'
-import App from "../App";
+import TextField from '@mui/material/TextField';
 
 class LogIn extends React.Component {
     constructor(props) {
@@ -10,9 +10,12 @@ class LogIn extends React.Component {
     render() {
         return (
             <div>
-            Hello World!
+                <h1>Spotifiubyfy</h1>
+                <h5>Hello there admin! Please, log in.</h5>
+                <TextField label="Username"/>
+                <TextField label="Password"/>
             </div>
-        );
+    );
     }
 }
 
