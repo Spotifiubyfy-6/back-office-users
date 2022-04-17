@@ -12,12 +12,14 @@ class App extends React.Component {
         if (!this.state.loggedIn) {
             return (
                 <div>
+                    <h1>Spotifiubyfy</h1>
                     <LogIn/>
                 </div>
             );
         } else {
             return (
                 <div>
+                    <h1>Spotifiubyfy</h1>
                     <UsersTable/>
                 </div>
             );

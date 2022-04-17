@@ -24,7 +24,6 @@ class LogIn extends React.Component {
     render() {
         return (
             <div>
-                <h1>Spotifiubyfy</h1>
                 <h5>Hello there admin! Please, log in.</h5>
                 <TextField label="Username" onChange={(e) => this.handleTextFieldChange("userName", e)}/>
                 <TextField label="Password" type="password" onChange={(e) => this.handleTextFieldChange("password", e)}/>
