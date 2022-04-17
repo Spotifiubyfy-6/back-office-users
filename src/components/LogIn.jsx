@@ -27,6 +27,7 @@ class LogIn extends React.Component {
                 <TextField label="Username" onChange={(e) => this.handleTextFieldChange("userName", e)}/>
                 <TextField label="Password" type="password" onChange={(e) => this.handleTextFieldChange("password", e)}/>
                 <div><Button variant="contained" onClick={this.handlePressedButton}>Log in</Button></div>
+                <div><h3 style={{color: 'red'}}>{this.props.error}</h3></div>
             </div>
         );
     }
