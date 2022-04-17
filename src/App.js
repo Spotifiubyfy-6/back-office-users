@@ -23,6 +23,12 @@ class App extends React.Component {
                     loggedIn: true
                 })
             })
+        }).catch((error) => {
+            console.log(error);
+            this.setState({
+                users: null,
+                loggedIn: false
+            })
         })
     }
 
