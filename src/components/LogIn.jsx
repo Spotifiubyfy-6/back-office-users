@@ -7,27 +7,27 @@ class LogIn extends React.Component {
         super(props);
         this.state = {userName: null, password: null};
         this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-        this.handleRequest = this.handleRequest.bind(this);
+        this.handlePressedButton = this.handlePressedButton.bind(this);
     }
 
     handleTextFieldChange(changedField, e) {
         this.setState({
-            changedField: e.target.value
+            [changedField]: e.target.value
         });
-        console.log(this.state.changedField);
     }
 
-    handleRequest(e) {
-        console.log('Clicked!\n');
+    handlePressedButton(e) {
+        this.props.requestLogIn(this.state.userName, this.state.password);
     }
 
     render() {
+        //console.log(this.state.userName);
         return (
             <div>
                 <h5>Hello there admin! Please, log in.</h5>
                 <TextField label="Username" onChange={(e) => this.handleTextFieldChange("userName", e)}/>
                 <TextField label="Password" type="password" onChange={(e) => this.handleTextFieldChange("password", e)}/>
-                <div><Button variant="contained" onClick={this.handleRequest}>Contained</Button></div>
+                <div><Button variant="contained" onClick={this.handlePressedButton}>Log in</Button></div>
             </div>
         );
     }
