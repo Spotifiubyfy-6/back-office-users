@@ -1,5 +1,5 @@
 import React from "react";
-import GetUsers from "./components/Getusers";
+import UsersTable from "./components/UsersTable";
 import LogIn from "./components/LogIn";
 
 class App extends React.Component {
@@ -18,7 +18,7 @@ class App extends React.Component {
         } else {
             return (
                 <div>
-                    <GetUsers/>
+                    <UsersTable/>
                 </div>
             );
         }
