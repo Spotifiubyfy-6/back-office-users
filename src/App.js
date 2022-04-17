@@ -13,6 +13,10 @@ class App extends React.Component {
     }
 
     requestLogIn(userName, password) {
+        if(userName == null || password == null) {
+            this.setState({logInError: "Fill both username and password fields"});
+            return;
+        }
         getToken(userName, password)
         .then((res) => {
             var auth = res.data.token_type + ' ' + res.data.access_token;
@@ -25,11 +29,12 @@ class App extends React.Component {
                 })
             })
         }).catch((error) => {
-            console.log(error);
+            let stringError = error.toString();
+            console.log(stringError);
             this.setState({
                 users: null,
                 loggedIn: false,
-                logInError: "Error when logging in: wrong username or password."
+                logInError: stringError
             })
         })
     }
