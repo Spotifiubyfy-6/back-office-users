@@ -1,9 +1,9 @@
-import GetUsers from "./components/Getusers";
+import UsersTable from "./components/UsersTable";
 
 function App() {
   return (
     <div>
-      <GetUsers/>
+      <UsersTable/>
     </div>
   );
 }
