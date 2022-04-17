@@ -2,6 +2,11 @@
 import qs from 'qs';
 import axios from "axios";
 
+/**
+ * 
+ * @returns {promise} token requested to API
+ */
+
  export async function getToken() {
     const endPointApiToken = 'https://spotifiubyfy-users.herokuapp.com/token'
     var data = qs.stringify({
@@ -18,4 +23,3 @@ import axios from "axios";
     };
     return await axios(config)
   };
-  

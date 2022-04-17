@@ -8,6 +8,10 @@ import { getToken } from '../functions/getTokenRequest';
 import { getUsers } from '../functions/getUsersRequest';
 
 
+/**
+ * 
+ * @returns {DataGridUsers} table component with users in database listed
+ */
 
 export default function Getusers() {
 
