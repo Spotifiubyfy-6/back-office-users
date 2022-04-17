@@ -6,14 +6,20 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {loggedIn: false};
+        this.requestLogIn = this.requestLogIn.bind(this);
+    }
+
+    requestLogIn(userName, password) {
+        console.log(userName);
+        console.log(password);
     }
 
     render() {
-        if (!this.state.loggedIn) {
+       if (!this.state.loggedIn) {
             return (
                 <div>
                     <h1>Spotifiubyfy</h1>
-                    <LogIn/>
+                    <LogIn requestLogIn={this.requestLogIn}/>
                 </div>
             );
         } else {

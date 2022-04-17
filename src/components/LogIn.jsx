@@ -21,7 +21,6 @@ class LogIn extends React.Component {
     }
 
     render() {
-        //console.log(this.state.userName);
         return (
             <div>
                 <h5>Hello there admin! Please, log in.</h5>
