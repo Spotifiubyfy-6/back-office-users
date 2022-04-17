@@ -13,4 +13,3 @@ export async function getUsers(auth) {
     }
     return await axios(config)
 };
-
