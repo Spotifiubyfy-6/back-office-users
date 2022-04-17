@@ -8,7 +8,7 @@ import {getUsers} from "./functions/getUsersRequest";
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {loggedIn: false, users: null};
+        this.state = {loggedIn: false, users: null, logInError: null};
         this.requestLogIn = this.requestLogIn.bind(this);
     }
 
@@ -20,14 +20,16 @@ class App extends React.Component {
             .then((db_users) => {
                 this.setState({
                     users: db_users.data,
-                    loggedIn: true
+                    loggedIn: true,
+                    logInError: null
                 })
             })
         }).catch((error) => {
             console.log(error);
             this.setState({
                 users: null,
-                loggedIn: false
+                loggedIn: false,
+                logInError: "Error when logging in: wrong username or password."
             })
         })
     }
@@ -37,7 +39,7 @@ class App extends React.Component {
             return (
                 <div>
                     <h1>Spotifiubyfy</h1>
-                    <LogIn requestLogIn={this.requestLogIn}/>
+                    <LogIn requestLogIn={this.requestLogIn} error={this.state.logInError}/>
                 </div>
             );
         } else {
