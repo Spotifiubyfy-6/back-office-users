@@ -26,7 +26,7 @@ class LogIn extends React.Component {
                 <h1>Spotifiubyfy</h1>
                 <h5>Hello there admin! Please, log in.</h5>
                 <TextField label="Username" onChange={this.handleTextFieldChange}/>
-                <TextField label="Password" onChange={this.handleTextFieldChange}/>
+                <TextField label="Password" type="password" onChange={this.handleTextFieldChange}/>
                 <div><Button variant="contained" onClick={this.handleRequest}>Contained</Button></div>
             </div>
         );
