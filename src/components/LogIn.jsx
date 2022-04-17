@@ -10,10 +10,11 @@ class LogIn extends React.Component {
         this.handleRequest = this.handleRequest.bind(this);
     }
 
-    handleTextFieldChange(e) {
+    handleTextFieldChange(changedField, e) {
         this.setState({
-            textFieldValue: e.target.value
+            changedField: e.target.value
         });
+        console.log(this.state.changedField);
     }
 
     handleRequest(e) {
@@ -25,8 +26,8 @@ class LogIn extends React.Component {
             <div>
                 <h1>Spotifiubyfy</h1>
                 <h5>Hello there admin! Please, log in.</h5>
-                <TextField label="Username" onChange={this.handleTextFieldChange}/>
-                <TextField label="Password" type="password" onChange={this.handleTextFieldChange}/>
+                <TextField label="Username" onChange={(e) => this.handleTextFieldChange("userName", e)}/>
+                <TextField label="Password" type="password" onChange={(e) => this.handleTextFieldChange("password", e)}/>
                 <div><Button variant="contained" onClick={this.handleRequest}>Contained</Button></div>
             </div>
         );
