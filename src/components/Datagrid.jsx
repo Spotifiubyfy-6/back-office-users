@@ -38,7 +38,7 @@ const columns = [
     width: 150,
     renderCell: (params) => {
        return <strong>
-        <Button variant="contained" color="primary" size="small" style={{marginLeft: 16}}
+        <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
                 onClick={() => {
                   console.log("deleting user with id " + params.row.id);
                 }}>
