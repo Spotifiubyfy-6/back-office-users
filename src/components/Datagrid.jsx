@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-
+import Button from '@mui/material/Button';
 
 const columns = [
   { 
@@ -31,9 +31,23 @@ const columns = [
     headerName: 'is_active',
     sortable: true,
     width: 100
+  },
+  {
+    field: 'col5',
+    headerName: 'Name 5',
+    width: 150,
+    renderCell: (params) => {
+       return <strong>
+        <Button variant="contained" color="primary" size="small" style={{marginLeft: 16}}
+                onClick={() => {
+                  console.log("deleting user with id " + params.row.id);
+                }}>
+          Delete User
+        </Button>
+      </strong>
+    },
   }
 ];
-
 
 export default function DataGridUsers(props) {
   
