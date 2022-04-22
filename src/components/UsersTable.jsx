@@ -11,9 +11,10 @@ import LinearIndeterminate from './ProgressLinear';
  * @returns {DataGridUsers} table component with users in database listed
  */
 
-export default function Getusers(props) {
+export default function UsersTable(props) {
 
   const [users, setUsers] = useState([]);
+  
   
   // Fetches Users 
   useEffect(() => {
