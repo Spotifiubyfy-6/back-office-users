@@ -8,9 +8,9 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false)
     const [authorization, setAuthorization] = useState([])
 
-
+    // SEE REACT ROUTER
     if (loggedIn) {
-        return (<UsersTable authorization = {authorization}/>);
+        return <UsersTable authorization = {authorization}/>
     } else {
         return (
             <div>
@@ -18,9 +18,7 @@ function App() {
                 <LogIn setLoginState = {setLoggedIn} setAuthorization = {setAuthorization} />
             </div>
         ); 
-    }
-    
-    
+    }  
 }
 
 export default App;
