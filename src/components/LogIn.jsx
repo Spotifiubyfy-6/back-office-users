@@ -5,27 +5,25 @@ import { useState } from 'react';
 import { getToken } from '../functions/getTokenRequest';
 
 export default function LogIn(props) {
-    const [username, setUsername] = useState([]);
-    const [password, setpassword] = useState([]);
-    const [loginError, setLoginError] = useState([])
+    const [username, setUsername] = useState('');
+    const [password, setpassword] = useState('');
+    const [loginError, setLoginError] = useState('')
 
     function requestLogin(username, password) {
-        if(Object.keys(username).length == 0 || Object.keys(password).length == 0) {
-            //si entra acá
+        if(username === '' || password === '') {
             setLoginError("Fill both username and password fields");
-            console.log('here');
-        } else {
-            getToken(username, password)
-           .then((res) => {
-            var auth = res.data.token_type + ' ' + res.data.access_token;
-            props.setAuthorization(auth);
-            props.setLoginState(true)
-           }).catch((error) => {
+            return;
+        }
+        getToken(username, password)
+        .then((res) => {
+        var auth = res.data.token_type + ' ' + res.data.access_token;
+        props.setAuthorization(auth);
+        props.setLoginState(true)
+        }).catch((error) => {
             let stringError = error.toString();
             console.log(stringError);
             setLoginError(stringError)
-           })
-        }
+        })
     }
         
     return (
