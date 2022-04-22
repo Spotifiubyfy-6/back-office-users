@@ -4,7 +4,6 @@ import {
   useEffect
 } from 'react';
 import DataGridUsers from './Datagrid';
-import { getToken } from '../functions/getTokenRequest';
 import { getUsers } from '../functions/getUsersRequest';
 
 
@@ -13,18 +12,15 @@ import { getUsers } from '../functions/getUsersRequest';
  * @returns {DataGridUsers} table component with users in database listed
  */
 
-export default function Getusers() {
+export default function Getusers(props) {
 
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    getToken()
-    .then((res) => {
-        var auth = res.data.token_type + ' ' + res.data.access_token;
-        getUsers(auth)
-        .then((db_users) => {
+
+    getUsers(props.authorization)
+    .then((db_users) => {
         setUsers(db_users.data)
-      })
     })
     .catch((error) => {
       console.log(error);
@@ -38,7 +34,7 @@ export default function Getusers() {
 
   return ( 
     <div >
-    < DataGridUsers rows = {users}/> 
+    < DataGridUsers rows = {users} authorization = {props.authorization} /> 
     </div>
   )
 }
