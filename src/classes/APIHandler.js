@@ -1,11 +1,12 @@
 import {getToken} from "../functions/getTokenRequest";
 import returnData from "./APIHandlerConstants"
-import { getUsers } from '../functions/getUsersRequest';
 import React from "react";
+import axios from "axios";
 
 class APIHandler {
     constructor() {
         this.token = '';
+        this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users?skip=0&limit=100';
     }
 
     async logIn(username, password) {
@@ -23,17 +24,16 @@ class APIHandler {
     }
 
     async getUsers() {
-        const auxAPI = this;
-        return new Promise(function(resolve, reject) {
-            getUsers(auxAPI.token)
-            .then((db_users) => {
-                resolve(db_users);
-            }).catch((error) => {
-                console.log(error.toString());
-                reject(error);
-            })
-        });
+        let config = {
+            method: 'get',
+            url: this.endPointApiUsers,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
     }
 }
-
 export default APIHandler;
