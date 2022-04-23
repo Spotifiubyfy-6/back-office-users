@@ -30,7 +30,7 @@ export default function UsersTable(props) {
   } else {
     return ( 
       <div >
-      < DataGridUsers rows = {users} authorization = {props.authorization} /> 
+      < DataGridUsers rows = {users} apiHandler = {props.apiHandler} />
       </div>
     )
   }

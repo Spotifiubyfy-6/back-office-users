@@ -49,7 +49,7 @@ export default function DataGridUsers(props) {
          return <strong>
           <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
                   onClick={() => {
-                    deleteUser(params.row.id, props.authorization)
+                    props.apiHandler.deleteUser(params.row.id)
                     .then((res) => { 
                       setRows(rows.filter((user) => user.id !== params.row.id))
                     })
