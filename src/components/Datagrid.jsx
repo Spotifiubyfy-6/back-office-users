@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import { deleteUser } from '../functions/deleteUserRequest';
 import { useState, useEffect } from 'react';
 
 export default function DataGridUsers(props) {
