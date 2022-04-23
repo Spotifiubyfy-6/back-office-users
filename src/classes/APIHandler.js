@@ -2,11 +2,12 @@ import {getToken} from "../functions/getTokenRequest";
 import returnData from "./APIHandlerConstants"
 import React from "react";
 import axios from "axios";
+import {deleteUser} from "../functions/deleteUserRequest";
 
 class APIHandler {
     constructor() {
         this.token = '';
-        this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users?skip=0&limit=100';
+        this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users/';
     }
 
     async logIn(username, password) {
@@ -35,5 +36,18 @@ class APIHandler {
         }
         return axios(config);
     }
+
+    async deleteUser(user_id) {
+        const endpoint = this.endPointApiUsers + user_id;
+        let config = {
+            method: 'delete',
+            url: endpoint,
+            headers: {
+                'Authorization': this.token
+            }
+        };
+        return axios(config);
+    }
 }
+
 export default APIHandler;
