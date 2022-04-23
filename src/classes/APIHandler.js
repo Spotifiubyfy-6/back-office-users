@@ -2,7 +2,6 @@ import {getToken} from "../functions/getTokenRequest";
 import returnData from "./APIHandlerConstants"
 import React from "react";
 import axios from "axios";
-import {deleteUser} from "../functions/deleteUserRequest";
 
 class APIHandler {
     constructor() {
