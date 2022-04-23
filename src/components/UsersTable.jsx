@@ -4,7 +4,6 @@ import {
   useEffect
 } from 'react';
 import DataGridUsers from './Datagrid';
-import { getUsers } from '../functions/getUsersRequest';
 import LinearIndeterminate from './ProgressLinear';
 /**
  * 
@@ -14,18 +13,17 @@ import LinearIndeterminate from './ProgressLinear';
 export default function UsersTable(props) {
 
   const [users, setUsers] = useState([]);
-  
-  
+
   // Fetches Users 
   useEffect(() => {
-    getUsers(props.authorization)
+    props.apiHandler.getUsers()
     .then((db_users) => {
-        setUsers(db_users.data)
+      setUsers(db_users.data)
     })
     .catch((error) => {
       console.log(error);
     })
-  }, [])
+  }, []);
 
   if (users.length === 0) {
     return < LinearIndeterminate />
