@@ -4,41 +4,34 @@ import {
   useEffect
 } from 'react';
 import DataGridUsers from './Datagrid';
-import { getToken } from '../functions/getTokenRequest';
-import { getUsers } from '../functions/getUsersRequest';
-
-
+import LinearIndeterminate from './ProgressLinear';
 /**
  * 
  * @returns {DataGridUsers} table component with users in database listed
  */
 
-export default function Getusers() {
+export default function UsersTable(props) {
 
   const [users, setUsers] = useState([]);
 
+  // Fetches Users 
   useEffect(() => {
-    getToken()
-    .then((res) => {
-        var auth = res.data.token_type + ' ' + res.data.access_token;
-        getUsers(auth)
-        .then((db_users) => {
-        setUsers(db_users.data)
-      })
+    props.apiHandler.getUsers()
+    .then((db_users) => {
+      setUsers(db_users.data)
     })
     .catch((error) => {
       console.log(error);
     })
-
-  }, [])
+  }, []);
 
   if (users.length === 0) {
-    return <h1 > LOADING PLEASE WAIT </h1>
+    return < LinearIndeterminate />
+  } else {
+    return ( 
+      <div >
+      < DataGridUsers rows = {users} apiHandler = {props.apiHandler} />
+      </div>
+    )
   }
-
-  return ( 
-    <div >
-    < DataGridUsers rows = {users}/> 
-    </div>
-  )
 }

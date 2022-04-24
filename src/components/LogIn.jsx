@@ -1,36 +1,41 @@
 import React from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
+import APIHandler from '../classes/APIHandler.js'
 
-class LogIn extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {userName: null, password: null};
-        this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
-        this.handlePressedButton = this.handlePressedButton.bind(this);
+export default function LogIn(props) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState('')
+
+    function requestLogin(username, password) {
+        if (username === '' || password === '') {
+            setLoginError("Fill both username and password fields");
+            return;
+        }
+        props.apiHandler.logIn(username, password)
+        .then((res) => {
+            props.setLoginState(true);
+        }).catch((error) => {
+            let stringError = error.toString();
+            setLoginError(stringError);
+        })
     }
 
-    handleTextFieldChange(changedField, e) {
-        this.setState({
-            [changedField]: e.target.value
-        });
-    }
-
-    handlePressedButton(e) {
-        this.props.requestLogIn(this.state.userName, this.state.password);
-    }
-
-    render() {
-        return (
+    return (
+        <div> 
+            <h5>Hello there admin! Please, log in.</h5>
+            <TextField label="Username" onChange={(e) => setUsername(e.target.value)}/>
+            <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)}/>
             <div>
-                <h5>Hello there admin! Please, log in.</h5>
-                <TextField label="Username" onChange={(e) => this.handleTextFieldChange("userName", e)}/>
-                <TextField label="Password" type="password" onChange={(e) => this.handleTextFieldChange("password", e)}/>
-                <div><Button variant="contained" onClick={this.handlePressedButton}>Log in</Button></div>
-                <div><h3 style={{color: 'red'}}>{this.props.error}</h3></div>
+                <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
             </div>
-        );
-    }
+            <div>
+                <h3 style={{color: 'red'}}>{loginError}</h3>
+            </div>
+        </div>
+    );
+    
 }
 
-export default LogIn;

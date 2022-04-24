@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
-import { deleteUser } from '../functions/deleteUserRequest';
 import { useState, useEffect } from 'react';
 
 export default function DataGridUsers(props) {
@@ -49,7 +48,7 @@ export default function DataGridUsers(props) {
          return <strong>
           <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
                   onClick={() => {
-                    deleteUser(params.row.id, props.authorization)
+                    props.apiHandler.deleteUser(params.row.id)
                     .then((res) => { 
                       setRows(rows.filter((user) => user.id !== params.row.id))
                     })
