@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render, waitFor} from '@testing-library/react'
 import LogIn from '../components/LogIn'
 import APIHandler from "../classes/APIHandler";
+import {act} from "react-dom/test-utils";
 
 test('LogIn components are rendered correctly', () => {
     const component = render(<LogIn/>);
@@ -31,11 +32,11 @@ test('LogIn text fields are updated as expected', () => {
     expect(inputPassword.value).toBe('b');
 })
 
-test('Error message is not shown when textfields have input and button is clicked', () => {
+test('Error message is not shown when textfields have input and button is clicked', async () => {
     const apiMock = {
         logIn: jest.fn(() => Promise.resolve(0))
     };
-    const component = render(<LogIn apiHandler = {apiMock}/>);
+    const component = render(<LogIn apiHandler={apiMock}/>);
 
     const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
@@ -44,15 +45,15 @@ test('Error message is not shown when textfields have input and button is clicke
 
     const button = component.getByText('Log in');
     fireEvent.click(button);
-    expect(() => component.getByText('Fill both username and password fields')).toThrow();
+    await waitFor(() => expect(() => component.getByText('Fill both username and password fields')).toThrow());
 })
 
-test('apiHandler login method is called once when textfields have input and button is clicked', () => {
+test('apiHandler login method is called once when textfields have input and button is clicked', async () => {
     const apiMock = {
         logIn: jest.fn(() => Promise.resolve(0))
     };
-    apiMock.logIn.mockResolvedValue(0);
-    const component = render(<LogIn apiHandler = {apiMock}/>);
+    // apiMock.logIn.mockResolvedValue(0);
+    const component = render(<LogIn apiHandler={apiMock}/>);
 
     const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
@@ -61,7 +62,7 @@ test('apiHandler login method is called once when textfields have input and butt
 
     const button = component.getByText('Log in');
     fireEvent.click(button);
-    expect(apiMock.logIn).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(apiMock.logIn).toHaveBeenCalledTimes(1));
 })
 
 test('setLoginState method is called once when textfields have input, apirequest is successful ' +
