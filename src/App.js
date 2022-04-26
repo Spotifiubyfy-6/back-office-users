@@ -1,12 +1,21 @@
 import React from "react";
 import UsersTable from "./components/UsersTable";
 import LogIn from "./components/LogIn"
-import APIHandler from "./classes/APIHandler"
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function App(props) {
 
     const [loggedIn, setLoggedIn] = useState(false);
+    
+    return (
+        <div>
+            <Link to="/app">Users</Link>
+            <Link to="/expenses">Expenses</Link>
+        </div>
+        );
+
+    /*
     // SEE REACT ROUTER
     if (loggedIn) {
         return <UsersTable apiHandler = {props.apiHandler}/>
@@ -17,7 +26,7 @@ function App(props) {
                 <LogIn apiHandler = {props.apiHandler} setLoginState = {setLoggedIn}/>
             </div>
         ); 
-    }  
+    }*/  
 }
 
 export default App;
