@@ -18,13 +18,14 @@ export default function LogIn(props) {
         .then((res) => {
             props.setLoginState(true);
         }).catch((error) => {
+            console.log(error);
             let stringError = error.toString();
             setLoginError(stringError);
         })
     }
 
     return (
-        <div> 
+        <div>
             <h5>Hello there admin! Please, log in.</h5>
             <TextField label="Username" onChange={(e) => setUsername(e.target.value)}
                        inputProps={{ 'aria-label': 'usernameTextField' }}/>
