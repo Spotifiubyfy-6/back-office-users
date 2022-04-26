@@ -42,7 +42,7 @@ export default function DataGridUsers(props) {
     },
     {
       field: 'col5',
-      headerName: 'Name 5',
+      headerName: 'Delete User',
       width: 150,
       renderCell: (params) => {
          return <strong>
