@@ -2,6 +2,7 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import {fireEvent, render} from '@testing-library/react'
 import LogIn from '../components/LogIn'
+import APIHandler from "../classes/APIHandler";
 
 test('LogIn components are rendered correctly', () => {
     const component = render(<LogIn/>);
@@ -10,24 +11,23 @@ test('LogIn components are rendered correctly', () => {
     component.getByText('Log in');
 })
 
-test('LogIn button handler is called once when the button is pressed', () => {
-    const mockHandler = jest.fn();
-    const component = render(<LogIn requestLogIn={mockHandler}/>);
-    const button = component.getByText('Log in');
-    fireEvent.click(button);
-
-    expect(mockHandler).toHaveBeenCalledTimes(1);
-})
-
 test('LogIn shows error message when trying to log in without inserting text to any text fields', () => {
-    const mockHandler = jest.fn();
-    const component = render(<LogIn requestLogIn={mockHandler}/>);
+    const component = render(<LogIn/>);
     const button = component.getByText('Log in');
     fireEvent.click(button);
 
     component.getByText('Fill both username and password fields');
-}) //should pass
+})
 
-test('LogIn fetches user data accordingly', () => {
+test('LogIn text fields are updated as expected', () => {
 
-}) //need refactor first
+    const component = render(<LogIn/>);
+
+    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    fireEvent.change(inputUsername, {target: {value: 'a'}});
+    expect(inputUsername.value).toBe('a');
+
+    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    fireEvent.change(inputPassword, {target: {value: 'b'}});
+    expect(inputPassword.value).toBe('b');
+})
