@@ -47,6 +47,7 @@ export default function DataGridUsers(props) {
       renderCell: (params) => {
          return <strong>
           <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
+                  aria-label={'deleteUser' + params.row.id}
                   onClick={() => {
                     props.apiHandler.deleteUser(params.row.id)
                     .then((res) => { 
@@ -72,6 +73,7 @@ export default function DataGridUsers(props) {
         rowsPerPusernameOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
+        columnBuffer={7}
       />
     </div>
   );
