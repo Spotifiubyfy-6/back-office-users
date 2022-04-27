@@ -5,7 +5,8 @@ import axios from "axios";
 
 class APIHandler {
     constructor() {
-        this.token = '';
+        const aux = localStorage.getItem('token');
+        this.token = (aux == null) ? '' : aux;
         this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users/';
     }
 
