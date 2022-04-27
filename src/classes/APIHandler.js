@@ -20,6 +20,7 @@ class APIHandler {
             getToken(username, password)
             .then((res) => {
                 auxAPI.token = res.data.token_type + ' ' + res.data.access_token;
+                localStorage.setItem('token', auxAPI.token);
                 resolve(returnData.SUCCESS);
             }).catch((error) => {
                 console.log(error.toString());
