@@ -10,6 +10,10 @@ class APIHandler {
         this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users/';
     }
 
+    hasActiveToken() {
+        return !(this.token === '');
+    }
+
     async logIn(username, password) {
         const auxAPI = this;
         return new Promise(function(resolve, reject) {
