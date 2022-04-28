@@ -2,21 +2,40 @@ import React from 'react'
 import {Drawer as MUIDrawer,
         List,
         ListItemButton,
-        ListItemText} from '@mui/material';
+        ListItemText,
+      ListItemIcon} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import InsightsIcon from '@mui/icons-material/Insights';
+import { Link } from 'react-router-dom';
 
-
-export default function Drawer() {
+const Drawer = () => {
+  const itemList = [
+    {
+      url: "userstable",
+      icon: <PersonIcon/>,
+      text: "Users"
+    },
+    {
+      url: "metrics",
+      icon: <InsightsIcon/>,
+      text: "Metrics"
+    }
+  ]
   return (
-    <MUIDrawer>
+    <MUIDrawer variant="permanent" style={{width: "200px"}}>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItemButton
-              key={text}
-            >
+          {itemList.map((item, index) => {
+            const {text, icon, url} = item;
+            return (
+            <ListItemButton key={text} component={Link} to={"/" + url}>
+            <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
-          ))}
+
+          )})}
         </List>
     </MUIDrawer>
   )
 }
+
+export default Drawer
