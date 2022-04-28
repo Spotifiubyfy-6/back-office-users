@@ -1,8 +1,10 @@
 import React from 'react'
-import UsersTable from '../components/UsersTable'
+import Userstable from '../components/Userstable'
 
 export default function users(props) {
   return (
-    <div><UsersTable  apiHandler = {props.apiHandler} /></div>
+    <div style={{width: "100%"}}>
+      <Userstable  apiHandler = {props.apiHandler} />
+    </div>
   )
 }
