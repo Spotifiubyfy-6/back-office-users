@@ -1,7 +1,7 @@
 import React from "react";
 import LogIn from "./components/LogIn"
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import {Outlet } from "react-router-dom";
 import Drawer from "./components/Drawer.jsx";
 
 function App(props) {
@@ -11,11 +11,8 @@ function App(props) {
 
     if (loggedIn) {
         return (
-            <div>
+           <div style={{display: "flex"}}>
                 <Drawer/> 
-               
-                <Link to="/usersTable">users link  </Link>
-                <Link to="/metrics">     metrics link </Link>
                 <Outlet/>
             </div>
         
