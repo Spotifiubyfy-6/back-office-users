@@ -5,113 +5,188 @@ import LogIn from '../components/LogIn'
 import APIHandler from "../classes/APIHandler";
 import APIHandlerConstants from "../classes/APIHandlerConstants";
 import {act} from "react-dom/test-utils";
+import { screen, configure } from '@testing-library/react'
 import returnData from "../classes/APIHandlerConstants";
 
 test('LogIn components are rendered correctly', () => {
-    const component = render(<LogIn/>);
-    component.getByLabelText('Username');
-    component.getByLabelText('Password');
-    component.getByText('Log in');
+    render(<LogIn/>);
+    screen.getByLabelText('Username');
+    screen.getByLabelText('Password');
+    screen.getByText('Log in');
 })
 
 test('LogIn shows error message when trying to log in without inserting text to any text fields', () => {
-    const component = render(<LogIn/>);
-    const button = component.getByText('Log in');
+    render(<LogIn/>);
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
 
-    component.getByText('Fill both username and password fields');
+    screen.getByText('Error: Fill both username and password fields');
 })
 
 test('LogIn text fields are updated as expected', () => {
-    const component = render(<LogIn/>);
+    render(<LogIn/>);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
     expect(inputUsername.value).toBe('a');
 
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
     expect(inputPassword.value).toBe('b');
 })
 
 test('Error message is not shown when textfields have input and button is clicked', async () => {
     const apiMock = {
+        isAdmin: jest.fn(() => Promise.resolve({data: "false"})),
         logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS))
     };
-    const component = render(<LogIn apiHandler={apiMock}/>);
+    render(<LogIn apiHandler={apiMock}/>);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
 
-    const button = component.getByText('Log in');
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
-    await waitFor(() => expect(() => component.getByText('Fill both username and password fields')).toThrow());
+    await waitFor(() => expect(() => screen.getByText('Error: Fill both username and password fields')).toThrow());
 })
 
-test('apiHandler login method is called once when textfields have input and button is clicked', async () => {
+test('apiHandler isAdmin method is called once when textfields have input and button is clicked' +
+    'but since user is not an admin, corresponding error message is shown', async () => {
     const apiMock = {
-        logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+        isAdmin: jest.fn(() => Promise.resolve({data: "false"}))
     };
-    const component = render(<LogIn apiHandler={apiMock}/>);
+    render(<LogIn apiHandler={apiMock}/>);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
 
-    const button = component.getByText('Log in');
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
-    await waitFor(() => expect(apiMock.logIn).toHaveBeenCalledTimes(1));
+
+    await waitFor(() => expect(apiMock.isAdmin).toHaveBeenCalledTimes(1));
+    await screen.findByText("Error: User is not an admin");
 })
 
-test('setLoginState method is called once when textfields have input, apirequest is successful ' +
-    'and button is clicked', async () => {
-    const apiMock = {
-        logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS))
-    };
-    const setLogInMock = jest.fn();
-    const component = render(<LogIn apiHandler={apiMock} setLoginState={setLogInMock}/>);
+test('isAdmin apiHandler method is called but since user is not an admin logIn method is not called',
+    async () => {
+        const apiMock = {
+            isAdmin: jest.fn(() => Promise.resolve({data: "false"})), //not an admin
+            logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+        };
+        render(<LogIn apiHandler={apiMock}/>);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+        const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
+        fireEvent.change(inputUsername, {target: {value: 'a'}});
+        const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
+        fireEvent.change(inputPassword, {target: {value: 'b'}});
+
+        const button = screen.getByText('Log in');
+        fireEvent.click(button);
+        await waitFor(() => expect(apiMock.logIn).toHaveBeenCalledTimes(0));
+})
+
+test('when username is not a registered user, an error is shown in screen',async () => {
+        const apiMock = {
+            isAdmin: jest.fn(() => Promise.reject(new Error("404: Not Found"))), //not registered
+        };
+        render(<LogIn apiHandler={apiMock}/>);
+
+        const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
+        fireEvent.change(inputUsername, {target: {value: 'a'}});
+        const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
+        fireEvent.change(inputPassword, {target: {value: 'b'}});
+
+        const button = screen.getByText('Log in');
+        fireEvent.click(button);
+        await screen.findByText("Error: Username is not registered.");
+})
+
+test('when server is down and isAdmin apiHandler method is called, server down error is shown on ' +
+    'screen',async () => {
+    const apiMock = {
+        isAdmin: jest.fn(() => Promise.reject(new Error("500: error"))), //server down
+    };
+    render(<LogIn apiHandler={apiMock}/>);
+
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
 
-    const button = component.getByText('Log in');
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
-    await waitFor(() => expect(setLogInMock).toHaveBeenCalledTimes(1));
+    await screen.findByText("Error: Server is not available. Try again later.");
+})
+
+test('logIn apihandler method is called once if the user is an admin',async () => {
+        const apiMock = {
+            isAdmin: jest.fn(() => Promise.resolve({data: "true"})), //is an admin
+            logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+        };
+        render(<LogIn apiHandler={apiMock}/>);
+
+        const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
+        fireEvent.change(inputUsername, {target: {value: 'a'}});
+        const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
+        fireEvent.change(inputPassword, {target: {value: 'b'}});
+
+        const button = screen.getByText('Log in');
+        fireEvent.click(button);
+        await waitFor(() => expect(apiMock.logIn).toHaveBeenCalledTimes(1));
 })
 
 test('When an incorrect username/password is given, error message is shown', async () => {
     const apiMock = {
+        isAdmin: jest.fn(() => Promise.resolve({data: "true"})), //is an admin
         logIn: jest.fn(() => Promise.reject(new Error('Error: wrong username or password')))
     };
-    const component = render(<LogIn apiHandler={apiMock} />);
+    render(<LogIn apiHandler={apiMock} />);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
 
-    const button = component.getByText('Log in');
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
-    component.findByText('Error: wrong username or password');
+    await screen.findByText('Error: Incorrect password.');
 })
 
-test('When an username is not an admin, error message is shown', async () => {
+test('When server is down when calling logIn api method, corresponding error is shown on screen', async () => {
     const apiMock = {
-        logIn: jest.fn(() => Promise.reject(new Error('Error: username is not an admin')))
+        isAdmin: jest.fn(() => Promise.resolve({data: "true"})), //is an admin
+        logIn: jest.fn(() => Promise.reject(new Error("500: error"))) //server is down
     };
-    const component = render(<LogIn apiHandler={apiMock} />);
+    render(<LogIn apiHandler={apiMock} />);
 
-    const inputUsername = component.getByRole('textbox', {name: 'usernameTextField'});
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
     fireEvent.change(inputUsername, {target: {value: 'a'}});
-    const inputPassword = component.getByRole('textbox', {name: 'passwordTextField'});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
     fireEvent.change(inputPassword, {target: {value: 'b'}});
 
-    const button = component.getByText('Log in');
+    const button = screen.getByText('Log in');
     fireEvent.click(button);
-    component.findByText('Error: username is not an admin');
+    await screen.findByText('Error: Server is not available. Try again later.');
+})
+
+test('When user is admin and log in is successful, setState', async () => {
+    const apiMock = {
+        isAdmin: jest.fn(() => Promise.resolve({data: "true"})), //is an admin
+        logIn: jest.fn(() => Promise.resolve(returnData.SUCCESS)) //server is down
+    };
+    const setLoggedInMock = jest.fn();
+    render(<LogIn apiHandler={apiMock} setLoginState = {setLoggedInMock}/>);
+
+    const inputUsername = screen.getByRole('textbox', {name: 'usernameTextField'});
+    fireEvent.change(inputUsername, {target: {value: 'a'}});
+    const inputPassword = screen.getByRole('textbox', {name: 'passwordTextField'});
+    fireEvent.change(inputPassword, {target: {value: 'b'}});
+
+    const button = screen.getByText('Log in');
+    fireEvent.click(button);
+    await waitFor(() => expect(setLoggedInMock).toHaveBeenCalledTimes(1));
 })
