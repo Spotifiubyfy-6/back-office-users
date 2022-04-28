@@ -17,32 +17,32 @@ export default function DataGridUsers(props) {
       width: 90 }, 
     {
       field: 'user_type',
-      headerName: 'user_type',
+      headerName: 'User Type',
       width: 150,
       editable: true,
     }, 
     {
       field: 'username',
-      headerName: 'username',
+      headerName: 'Username',
       width: 110,
       editable: true,
     },
     {
       field: 'email',
-      headerName: 'email',
+      headerName: 'Email',
       sortable: false,
       width: 160,
       
     },
     {
       field: 'is_active',
-      headerName: 'is_active',
+      headerName: 'Is Active',
       sortable: true,
       width: 100
     },
     {
       field: 'col5',
-      headerName: 'Name 5',
+      headerName: 'Delete User',
       width: 150,
       renderCell: (params) => {
          return <strong>
@@ -65,7 +65,7 @@ export default function DataGridUsers(props) {
   ];
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <div >
       <DataGrid
         rows={rows}
         columns={columns}
@@ -73,7 +73,9 @@ export default function DataGridUsers(props) {
         rowsPerPusernameOptions={[5]}
         checkboxSelection
         disableSelectionOnClick
+        style={{ height: "700px", widht: "100%"}}
         columnBuffer={7}
+
       />
     </div>
   );
