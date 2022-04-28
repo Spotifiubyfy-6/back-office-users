@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import APIHandler from '../classes/APIHandler.js'
+import ErrorBox from "./ErrorBox";
 
 export default function LogIn(props) {
     const [username, setUsername] = useState('');
@@ -18,9 +19,7 @@ export default function LogIn(props) {
         .then((res) => {
             props.setLoginState(true);
         }).catch((error) => {
-            console.log(error);
-            let stringError = error.toString();
-            setLoginError(stringError);
+            setLoginError(error.toString());
         })
     }
 
@@ -34,9 +33,7 @@ export default function LogIn(props) {
             <div>
                 <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
             </div>
-            <div>
-                <h3 style={{color: 'red'}}>{loginError}</h3>
-            </div>
+            <ErrorBox errorString={loginError}/>
         </div>
     );
     
