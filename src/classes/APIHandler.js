@@ -53,6 +53,18 @@ class APIHandler {
         };
         return axios(config);
     }
+
+    async setAsAdmin(user_id) {
+        const endpoint = this.endPointApiUsers + "admin/" + user_id;
+        let config = {
+            method: 'post',
+            url: endpoint,
+            headers: {
+                'Authorization': this.token
+            }
+        };
+        return axios(config);
+    }
 }
 
 export default APIHandler;
