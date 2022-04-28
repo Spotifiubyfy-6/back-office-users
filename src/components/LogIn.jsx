@@ -18,16 +18,19 @@ export default function LogIn(props) {
         .then((res) => {
             props.setLoginState(true);
         }).catch((error) => {
+            console.log(error);
             let stringError = error.toString();
             setLoginError(stringError);
         })
     }
 
     return (
-        <div> 
+        <div>
             <h5>Hello there admin! Please, log in.</h5>
-            <TextField label="Username" onChange={(e) => setUsername(e.target.value)}/>
-            <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)}/>
+            <TextField label="Username" onChange={(e) => setUsername(e.target.value)}
+                       inputProps={{ 'aria-label': 'usernameTextField' }}/>
+            <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)}
+                       inputProps={{ 'role': 'textbox', 'aria-label': 'passwordTextField' }}/>
             <div>
                 <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
             </div>

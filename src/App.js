@@ -6,9 +6,9 @@ import Drawer from "./components/Drawer.jsx";
 
 function App(props) {
 
-    const [loggedIn, setLoggedIn] = useState(false);
-    
 
+    const [loggedIn, setLoggedIn] = useState(props.apiHandler.hasActiveToken());
+    // SEE REACT ROUTER
     if (loggedIn) {
         return (
            <div style={{display: "flex"}}>
