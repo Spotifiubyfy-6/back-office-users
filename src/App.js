@@ -1,15 +1,22 @@
 import React from "react";
-import UsersTable from "./components/UsersTable";
 import LogIn from "./components/LogIn"
-import APIHandler from "./classes/APIHandler"
 import { useState } from "react";
+import {Outlet } from "react-router-dom";
+import Drawer from "./components/Drawer.jsx";
 
 function App(props) {
+
 
     const [loggedIn, setLoggedIn] = useState(props.apiHandler.hasActiveToken());
     // SEE REACT ROUTER
     if (loggedIn) {
-        return <UsersTable apiHandler = {props.apiHandler}/>
+        return (
+           <div style={{display: "flex"}}>
+                <Drawer/> 
+                <Outlet/>
+            </div>
+        
+        );
     } else {
         return (
             <div>
