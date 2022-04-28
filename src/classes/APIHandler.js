@@ -5,8 +5,13 @@ import axios from "axios";
 
 class APIHandler {
     constructor() {
-        this.token = '';
+        const aux = localStorage.getItem('token');
+        this.token = (aux == null) ? '' : aux;
         this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users/';
+    }
+
+    hasActiveToken() {
+        return !(this.token === '');
     }
 
     async logIn(username, password) {
@@ -15,6 +20,7 @@ class APIHandler {
             getToken(username, password)
             .then((res) => {
                 auxAPI.token = res.data.token_type + ' ' + res.data.access_token;
+                localStorage.setItem('token', auxAPI.token);
                 resolve(returnData.SUCCESS);
             }).catch((error) => {
                 console.log(error.toString());

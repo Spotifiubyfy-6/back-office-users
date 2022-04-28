@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function App(props) {
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(props.apiHandler.hasActiveToken());
     // SEE REACT ROUTER
     if (loggedIn) {
         return <UsersTable apiHandler = {props.apiHandler}/>
