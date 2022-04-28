@@ -1,8 +1,8 @@
 import React from "react";
-import UsersTable from "./components/UsersTable";
 import LogIn from "./components/LogIn"
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
+import Drawer from "./components/Drawer.jsx";
 
 function App(props) {
 
@@ -12,9 +12,11 @@ function App(props) {
     if (loggedIn) {
         return (
             <div>
-                <Link to="/usersTable">users link </Link>
-                <Link to="/metrics">metrics link </Link>
-                <Outlet />
+                <Drawer/> 
+               
+                <Link to="/usersTable">users link  </Link>
+                <Link to="/metrics">     metrics link </Link>
+                <Outlet/>
             </div>
         
         );
