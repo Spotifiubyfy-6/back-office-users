@@ -5,6 +5,8 @@ import { useState } from 'react';
 import APIHandler from '../classes/APIHandler.js'
 import ErrorBox from "./ErrorBox";
 
+const serverDownString = "Server is not available. Try again later."
+
 export default function LogIn(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -15,11 +17,24 @@ export default function LogIn(props) {
             setLoginError("Fill both username and password fields");
             return;
         }
-        props.apiHandler.logIn(username, password)
+        props.apiHandler.isAdmin(username)
         .then((res) => {
-            props.setLoginState(true);
+            if (res.data.toString() !== "true") {
+                setLoginError("User is not an admin");
+                return;
+            }
+            props.apiHandler.logIn(username, password)
+            .then((res) => {
+                props.setLoginState(true);
+            }).catch((error) => {
+                let errorString = error.toString();
+                errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Incorrect password.";
+                setLoginError(errorString);
+            })
         }).catch((error) => {
-            setLoginError(error.toString());
+            let errorString = error.toString();
+            errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username is not registered.";
+            setLoginError(errorString);
         })
     }
 
@@ -36,6 +51,6 @@ export default function LogIn(props) {
             <ErrorBox errorString={loginError}/>
         </div>
     );
-    
+
 }
 
