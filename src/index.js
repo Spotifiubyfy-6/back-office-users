@@ -7,16 +7,16 @@ import Users from './routes/users'
 import Metrics from './routes/metrics'
 
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 let apiHandler = new APIHandler();
 root.render(
-    <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App apiHandler = {apiHandler}/>}>    
-                <Route path="/usersTable" element={<Users apiHandler = {apiHandler} />} />
-                <Route path="/metrics" element={<Metrics/>} />
-            </Route>
-        </Routes>
-    </BrowserRouter>
+    
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<App apiHandler = {apiHandler}/>}>    
+                    <Route path="/userstable" element={<Users apiHandler = {apiHandler} />} />
+                    <Route path="/metrics" element={<Metrics/>} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
     );
