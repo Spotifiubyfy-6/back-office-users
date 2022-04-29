@@ -51,11 +51,6 @@ export default function DataGridUsers(props) {
           <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
                   aria-label={'deleteUser' + params.row.id}
                   onClick={() => {
-                    if (params.row.user_type === 'admin') {
-                      setDeleteError("You cannot delete an admin");
-                      return;
-                    }
-                    setDeleteError('');
                     props.apiHandler.deleteUser(params.row.id)
                     .then((res) => { 
                       setRows(rows.filter((user) => user.id !== params.row.id))
