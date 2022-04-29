@@ -2,10 +2,12 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
+import ErrorBox from "./ErrorBox";
 
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
+  const [deleteButtonError, setDeleteError] = useState('');
   useEffect(() => {
     setRows(props.rows)
   }, [])
@@ -54,7 +56,7 @@ export default function DataGridUsers(props) {
                       setRows(rows.filter((user) => user.id !== params.row.id))
                     })
                     .catch((error) => {
-                      console.log(error)
+                      setDeleteError("Server is not available. Try again later.");
                     })
                   }}>
             Delete User
@@ -66,6 +68,7 @@ export default function DataGridUsers(props) {
 
   return (
     <div >
+      <ErrorBox errorString={deleteButtonError}/>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -75,7 +78,6 @@ export default function DataGridUsers(props) {
         disableSelectionOnClick
         style={{ height: "700px", widht: "100%"}}
         columnBuffer={7}
-
       />
     </div>
   );

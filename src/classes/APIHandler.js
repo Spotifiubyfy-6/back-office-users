@@ -14,6 +14,18 @@ class APIHandler {
         return !(this.token === '');
     }
 
+    async isAdmin(username) {
+        let config = {
+            method: 'get',
+            url: 'https://spotifiubyfy-users.herokuapp.com/is_admin/' + username,
+            headers: {
+                'accept': 'application/json'
+            }
+        }
+        console.log(config.url);
+        return axios(config);
+    }
+
     async logIn(username, password) {
         const auxAPI = this;
         return new Promise(function(resolve, reject) {

@@ -3,6 +3,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import APIHandler from '../classes/APIHandler.js'
+import ErrorBox from "./ErrorBox";
+
+const serverDownString = "Server is not available. Try again later."
 
 export default function LogIn(props) {
     const [username, setUsername] = useState('');
@@ -14,13 +17,24 @@ export default function LogIn(props) {
             setLoginError("Fill both username and password fields");
             return;
         }
-        props.apiHandler.logIn(username, password)
+        props.apiHandler.isAdmin(username)
         .then((res) => {
-            props.setLoginState(true);
+            if (res.data.toString() !== "true") {
+                setLoginError("User is not an admin");
+                return;
+            }
+            props.apiHandler.logIn(username, password)
+            .then((res) => {
+                props.setLoginState(true);
+            }).catch((error) => {
+                let errorString = error.toString();
+                errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Incorrect password.";
+                setLoginError(errorString);
+            })
         }).catch((error) => {
-            console.log(error);
-            let stringError = error.toString();
-            setLoginError(stringError);
+            let errorString = error.toString();
+            errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username is not registered.";
+            setLoginError(errorString);
         })
     }
 
@@ -34,11 +48,9 @@ export default function LogIn(props) {
             <div>
                 <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
             </div>
-            <div>
-                <h3 style={{color: 'red'}}>{loginError}</h3>
-            </div>
+            <ErrorBox errorString={loginError}/>
         </div>
     );
-    
+
 }
 
