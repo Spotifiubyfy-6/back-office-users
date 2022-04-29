@@ -22,7 +22,6 @@ class APIHandler {
                 'accept': 'application/json'
             }
         }
-        console.log(config.url);
         return axios(config);
     }
 
