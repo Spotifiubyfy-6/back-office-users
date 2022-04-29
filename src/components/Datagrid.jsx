@@ -21,13 +21,11 @@ export default function DataGridUsers(props) {
       field: 'user_type',
       headerName: 'User Type',
       width: 150,
-      editable: true,
     }, 
     {
       field: 'username',
       headerName: 'Username',
       width: 110,
-      editable: true,
     },
     {
       field: 'email',
@@ -47,6 +45,7 @@ export default function DataGridUsers(props) {
       headerName: 'Delete User',
       width: 150,
       renderCell: (params) => {
+        if (params.row.user_type !== "admin") {
          return <strong>
           <Button variant="contained" color="secondary" size="small" style={{marginLeft: 16}}
                   aria-label={'deleteUser' + params.row.id}
@@ -62,6 +61,32 @@ export default function DataGridUsers(props) {
             Delete User
           </Button>
         </strong>
+        }
+      },
+    },
+    {
+      field: 'setAdmin',
+      headerName: 'Set As Admin',
+      width: 150,
+      renderCell: (params) => {
+        if (params.row.user_type !== "admin") {
+         return <strong>
+          <Button variant="contained" color="primary" size="small" style={{marginLeft: 16}}
+                  aria-label={'setAsAdmin' + params.row.id}
+                  onClick={() => {
+                    props.apiHandler.setAsAdmin(params.row.id)
+                    .then((res) => { 
+                     window.location.reload(false)
+                      console.log("NOW ADMIN")
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                    })
+                  }}>
+            Set As Admin
+          </Button>
+        </strong>
+        }
       },
     }
   ];
