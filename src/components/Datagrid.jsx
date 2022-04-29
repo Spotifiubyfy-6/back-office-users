@@ -74,6 +74,7 @@ export default function DataGridUsers(props) {
                   onClick={() => {
                     props.apiHandler.setAsAdmin(params.row.id)
                     .then((res) => { 
+                     window.location.reload(false)
                       console.log("NOW ADMIN")
                     })
                     .catch((error) => {
