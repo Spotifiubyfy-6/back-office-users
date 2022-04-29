@@ -7,6 +7,13 @@ import {Drawer as MUIDrawer,
 import PersonIcon from '@mui/icons-material/Person';
 import InsightsIcon from '@mui/icons-material/Insights';
 import { Link } from 'react-router-dom';
+import Button from "@mui/material/Button";
+
+function handleLogOutClick() {
+    console.log("here");
+    localStorage.removeItem('token');
+    window.location.reload(false);
+}
 
 const Drawer = () => {
   const itemList = [
@@ -33,6 +40,7 @@ const Drawer = () => {
             </ListItemButton>
 
           )})}
+          <Button variant="contained" onClick={()=>{handleLogOutClick()}}>Log out</Button>
         </List>
     </MUIDrawer>
   )
