@@ -20,7 +20,7 @@ export default function LogIn(props) {
         props.apiHandler.isAdmin(username)
         .then((res) => {
             if (res.data.toString() !== "true") {
-                setLoginError("User is not an admin");
+                setLoginError("Username or password is incorrect.");
                 return;
             }
             props.apiHandler.logIn(username, password)
@@ -28,12 +28,12 @@ export default function LogIn(props) {
                 props.setLoginState(true);
             }).catch((error) => {
                 let errorString = error.toString();
-                errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Incorrect password.";
+                errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username or password is incorrect.";
                 setLoginError(errorString);
             })
         }).catch((error) => {
             let errorString = error.toString();
-            errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username is not registered.";
+            errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username or password is incorrect.";
             setLoginError(errorString);
         })
     }
