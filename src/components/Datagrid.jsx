@@ -51,8 +51,9 @@ export default function DataGridUsers(props) {
                   aria-label={'deleteUser' + params.row.id}
                   onClick={() => {
                     props.apiHandler.deleteUser(params.row.id)
-                    .then((res) => { 
-                      setRows(rows.filter((user) => user.id !== params.row.id))
+                    .then((res) => {
+                        window.location.reload(false);
+                        setRows(rows.filter((user) => user.id !== params.row.id))
                     })
                     .catch((error) => {
                       setDeleteError("Server is not available. Try again later.");
@@ -72,15 +73,15 @@ export default function DataGridUsers(props) {
         if (params.row.user_type !== "admin") {
          return <strong>
           <Button variant="contained" color="primary" size="small" style={{marginLeft: 16}}
-                  aria-label={'setAsAdmin' + params.row.id}
+                  aria-label={'setUser' + params.row.id + 'AsAdmin'}
                   onClick={() => {
                     props.apiHandler.setAsAdmin(params.row.id)
                     .then((res) => { 
-                     window.location.reload(false)
-                      console.log("NOW ADMIN")
+                     window.location.reload(false);
+                      console.log("NOW ADMIN");
                     })
                     .catch((error) => {
-                      console.log(error)
+                        setDeleteError("Server is not available. Try again later.");
                     })
                   }}>
             Set As Admin
@@ -102,7 +103,7 @@ export default function DataGridUsers(props) {
         checkboxSelection
         disableSelectionOnClick
         style={{ height: "700px", widht: "100%"}}
-        columnBuffer={7}
+        columnBuffer={8}
       />
     </div>
   );
