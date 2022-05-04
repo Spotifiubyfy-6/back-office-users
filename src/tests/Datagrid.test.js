@@ -5,6 +5,11 @@ import React from "react";
 import {screen} from '@testing-library/dom'
 import debug from "debug";
 
+Object.defineProperty(window, 'location', {
+    writable: true,
+    value: { reload: jest.fn() }
+});
+
 test('Datagrid renders given a set of rows (delete button included)', () => {
     const rows = [
         {"id": 1, "user_type": "admin2", "username": "andres", "email": 'andres@gmail.com', "is_active": "true"},
