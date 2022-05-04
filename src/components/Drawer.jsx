@@ -10,7 +10,6 @@ import { Link } from 'react-router-dom';
 import Button from "@mui/material/Button";
 
 function handleLogOutClick() {
-    console.log("here");
     localStorage.removeItem('token');
     window.location.reload(false);
 }
