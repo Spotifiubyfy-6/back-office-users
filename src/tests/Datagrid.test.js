@@ -10,6 +10,10 @@ Object.defineProperty(window, 'location', {
     value: { reload: jest.fn() }
 });
 
+afterEach(() => {
+    jest.clearAllMocks();
+});
+
 test('Datagrid renders given a set of rows (delete button included)', () => {
     const rows = [
         {"id": 1, "user_type": "admin2", "username": "andres", "email": 'andres@gmail.com', "is_active": "true"},
@@ -18,7 +22,8 @@ test('Datagrid renders given a set of rows (delete button included)', () => {
     screen.getByRole('button', {name: 'deleteUser1'})
 })
 
-test('APIHandler method delete is called once after delete button is clicked', async () => {
+test('APIHandler method delete is called once after delete button is clicked and page is reloaded',
+    async () => {
     const apiMock = {
         deleteUser: jest.fn(() => Promise.resolve(returnData.SUCCESS))
     };
@@ -32,6 +37,7 @@ test('APIHandler method delete is called once after delete button is clicked', a
     const button = screen.getByRole('button', {name: 'deleteUser3'});
     fireEvent.click(button);
     await waitFor(() => expect(apiMock.deleteUser).toHaveBeenCalledTimes(1));
+    expect(window.location.reload).toHaveBeenCalledTimes(1);
 })
 
 test('Admins do not have delete button', async () => {
@@ -66,7 +72,8 @@ test('If server is down when calling api delete method, error message is shown o
         await screen.findByText("Error: Server is not available. Try again later.");
 })
 
-test('APIHandler method setAsAdmin is called once after setAdmin button is clicked', async () => {
+test('APIHandler method setAsAdmin is called once after setAdmin button is clicked and page is' +
+    ' reloaded', async () => {
     const apiMock = {
         setAsAdmin: jest.fn(() => Promise.resolve(returnData.SUCCESS))
     };
@@ -80,6 +87,7 @@ test('APIHandler method setAsAdmin is called once after setAdmin button is click
     const button = screen.getByRole('button', {name: 'setUser2AsAdmin'});
     fireEvent.click(button);
     await waitFor(() => expect(apiMock.setAsAdmin).toHaveBeenCalledTimes(1));
+    expect(window.location.reload).toHaveBeenCalledTimes(1);
 })
 
 test('If server is down when calling api setAdmin method, error message is shown on screen',
