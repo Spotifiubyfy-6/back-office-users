@@ -78,7 +78,6 @@ export default function DataGridUsers(props) {
                     props.apiHandler.setAsAdmin(params.row.id)
                     .then((res) => { 
                      window.location.reload(false);
-                      console.log("NOW ADMIN");
                     })
                     .catch((error) => {
                         setDeleteError("Server is not available. Try again later.");
