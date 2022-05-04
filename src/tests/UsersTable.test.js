@@ -1,5 +1,5 @@
 import {fireEvent, render, screen, waitFor} from "@testing-library/react";
-import UsersTable from "../components/UsersTable";
+import UsersTable from "../components/Userstable";
 import APIHandlerConstants from "../classes/APIHandlerConstants";
 import React from "react";
 import returnData from "../classes/APIHandlerConstants";
