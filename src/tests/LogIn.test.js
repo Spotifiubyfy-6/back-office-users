@@ -68,7 +68,7 @@ test('apiHandler isAdmin method is called once when textfields have input and bu
     fireEvent.click(button);
 
     await waitFor(() => expect(apiMock.isAdmin).toHaveBeenCalledTimes(1));
-    await screen.findByText("Error: User is not an admin");
+    await screen.findByText("Error: Username or password is incorrect.");
 })
 
 test('isAdmin apiHandler method is called but since user is not an admin logIn method is not called',
@@ -102,7 +102,7 @@ test('when username is not a registered user, an error is shown in screen',async
 
         const button = screen.getByText('Log in');
         fireEvent.click(button);
-        await screen.findByText("Error: Username is not registered.");
+        await screen.findByText("Error: Username or password is incorrect.");
 })
 
 test('when server is down and isAdmin apiHandler method is called, server down error is shown on ' +
@@ -153,7 +153,7 @@ test('When an incorrect username/password is given, error message is shown', asy
 
     const button = screen.getByText('Log in');
     fireEvent.click(button);
-    await screen.findByText('Error: Incorrect password.');
+    await screen.findByText("Error: Username or password is incorrect.");
 })
 
 test('When server is down when calling logIn api method, corresponding error is shown on screen', async () => {
