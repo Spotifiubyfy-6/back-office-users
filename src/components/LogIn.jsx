@@ -5,7 +5,8 @@ import { useState } from 'react';
 import APIHandler from '../classes/APIHandler.js'
 import ErrorBox from "./ErrorBox";
 
-const serverDownString = "Server is not available. Try again later."
+const serverDownString = "Server is not available. Try again later.";
+const userOrPasswordIncorrect = "Username or password is incorrect.";
 
 export default function LogIn(props) {
     const [username, setUsername] = useState('');
@@ -19,23 +20,16 @@ export default function LogIn(props) {
         }
         props.apiHandler.isAdmin(username)
         .then((res) => {
-            if (res.data.toString() !== "true") {
-                setLoginError("Username or password is incorrect.");
-                return;
-            }
-            props.apiHandler.logIn(username, password)
-            .then((res) => {
-                props.setLoginState(true);
-            }).catch((error) => {
-                let errorString = error.toString();
-                errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username or password is incorrect.";
-                setLoginError(errorString);
-            })
-        }).catch((error) => {
+            if (res.data.toString() !== "true")
+                throw(new Error("Not an admin"));
+            return props.apiHandler.logIn(username, password);
+        }).then((res) => {
+            props.setLoginState(true);
+        }).catch((error) =>{
             let errorString = error.toString();
-            errorString = (errorString.indexOf("500") > -1) ? serverDownString : "Username or password is incorrect.";
+            errorString = (errorString.indexOf("500") > -1) ? serverDownString : userOrPasswordIncorrect;
             setLoginError(errorString);
-        })
+        });
     }
 
     return (
