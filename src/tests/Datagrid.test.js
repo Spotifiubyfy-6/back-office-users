@@ -61,3 +61,50 @@ test('If server is down when calling api delete method, error message is shown o
         await screen.findByText("Error: Server is not available. Try again later.");
 })
 
+test('APIHandler method setAsAdmin is called once after setAdmin button is clicked', async () => {
+    const apiMock = {
+        setAsAdmin: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'listener', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    const button = screen.getByRole('button', {name: 'setUser2AsAdmin'});
+    fireEvent.click(button);
+    await waitFor(() => expect(apiMock.setAsAdmin).toHaveBeenCalledTimes(1));
+})
+
+test('If server is down when calling api setAdmin method, error message is shown on screen',
+    async () => {
+        const apiMock = {
+            setAsAdmin: jest.fn(() => Promise.reject(new Error("500")))
+        };
+        const rows = [
+            { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+            { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+            { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+        ];
+        render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+        const button = screen.getByRole('button', {name: 'setUser3AsAdmin'});
+        fireEvent.click(button);
+        await screen.findByText("Error: Server is not available. Try again later.");
+    })
+
+test('Admins do not have setAdmin button', async () => {
+    const apiMock = {
+        deleteUser: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    expect(() => screen.getByRole('button', {name: 'setUser1AsAdmin'})).toThrow();
+    expect(() => screen.getByRole('button', {name: 'setUser2AsAdmin'})).toThrow();
+})
