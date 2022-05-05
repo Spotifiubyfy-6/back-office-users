@@ -12,10 +12,10 @@ function App(props) {
     // SEE REACT ROUTER
     if (loggedIn) {
         return (
-           <div style={{display: "flex"}}>
+           <Box style={{display: "flex"}}>
                 <Drawer/> 
                 <Outlet/>
-            </div>
+            </Box>
         
         );
     } else {
