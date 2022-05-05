@@ -6,6 +6,7 @@ import {Drawer as MUIDrawer,
       ListItemIcon} from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import InsightsIcon from '@mui/icons-material/Insights';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import { Link } from 'react-router-dom';
 import Button from "@mui/material/Button";
 
@@ -26,6 +27,11 @@ const Drawer = () => {
       url: "metrics",
       icon: <InsightsIcon/>,
       text: "Metrics"
+    },
+    {
+      url: "content",
+      icon: <MusicNoteIcon/>,
+      text: "Content"
     }
   ]
   return (
