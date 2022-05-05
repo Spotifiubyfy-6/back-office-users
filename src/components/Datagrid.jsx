@@ -53,7 +53,6 @@ export default function DataGridUsers(props) {
                     props.apiHandler.deleteUser(params.row.id)
                     .then((res) => {
                         window.location.reload(false);
-                        setRows(rows.filter((user) => user.id !== params.row.id))
                     })
                     .catch((error) => {
                       setDeleteError("Server is not available. Try again later.");
