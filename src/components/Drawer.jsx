@@ -46,8 +46,8 @@ const Drawer = () => {
             </ListItemButton>
 
           )})}
-          <Button variant="contained" onClick={()=>{handleLogOutClick()}}>Log out</Button>
         </List>
+          <Button variant="contained" onClick={()=>{handleLogOutClick()}} style={{ marginTop: "auto"}}>Log out</Button>
     </MUIDrawer>
   )
 }
