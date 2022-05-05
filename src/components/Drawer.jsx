@@ -35,7 +35,7 @@ const Drawer = () => {
     }
   ]
   return (
-    <MUIDrawer variant="permanent" style={{width: "200px"}}>
+    <MUIDrawer variant="permanent" style={{width: "140px"}}>
         <List>
           {itemList.map((item, index) => {
             const {text, icon, url} = item;
