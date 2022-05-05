@@ -3,6 +3,7 @@ import LogIn from "./components/LogIn"
 import { useState } from "react";
 import {Outlet } from "react-router-dom";
 import Drawer from "./components/Drawer.jsx";
+import { Box } from "@mui/material";
 
 function App(props) {
 
@@ -20,8 +21,10 @@ function App(props) {
     } else {
         return (
             <div>
-                <h1>Spotifiubyfy</h1>
-                <LogIn apiHandler = {props.apiHandler} setLoginState = {setLoggedIn}/>
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <h1>Spotifiubyfy</h1>
+                    <LogIn apiHandler = {props.apiHandler} setLoginState = {setLoggedIn}/>
+                </Box>
             </div>
         ); 
     }  

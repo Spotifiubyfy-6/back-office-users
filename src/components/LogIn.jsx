@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import { useState } from 'react';
 import APIHandler from '../classes/APIHandler.js'
 import ErrorBox from "./ErrorBox";
+import { Box } from "@mui/material";
 
 const serverDownString = "Server is not available. Try again later."
 
@@ -40,15 +41,21 @@ export default function LogIn(props) {
 
     return (
         <div>
-            <h5>Hello there admin! Please, log in.</h5>
-            <TextField label="Username" onChange={(e) => setUsername(e.target.value)}
-                       inputProps={{ 'aria-label': 'usernameTextField' }}/>
-            <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)}
-                       inputProps={{ 'role': 'textbox', 'aria-label': 'passwordTextField' }}/>
-            <div>
-                <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
-            </div>
-            <ErrorBox errorString={loginError}/>
+            <Box display="flex" flexDirection="column" alignItems="center" >
+                <h2>Hello there admin! Please, log in.</h2>
+                <div>
+                    <TextField label="Username" onChange={(e) => setUsername(e.target.value)}
+                            inputProps={{ 'aria-label': 'usernameTextField' }} margin="normal"/>
+                </div>
+                <div>
+                <TextField label="Password" type="password" onChange={(e) => setPassword(e.target.value)}
+                        inputProps={{ 'role': 'textbox', 'aria-label': 'passwordTextField' }} margin="normal"/>
+                </div>
+                <div>
+                    <Button variant="contained" onClick={()=>{requestLogin(username, password)}}>Log in</Button>
+                </div>
+                <ErrorBox errorString={loginError}/>
+            </Box>
         </div>
     );
 
