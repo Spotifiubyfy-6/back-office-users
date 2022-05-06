@@ -28,7 +28,8 @@ export default function DataGridUsers(props) {
         renderCell: (params) => {
                 return <strong>
                     <ImageButton onClick={props.apiHandler.getUserInfoWithId} params={params.id}
-                                    src={image_src} height="40" width="40" alt={"View User"}/>
+                                 src={image_src} height="40" width="40" alt={"View User"}
+                                 arialLabel={'viewUser' + params.row.id}/>
                 </strong>;
         },
     },
@@ -116,7 +117,7 @@ export default function DataGridUsers(props) {
         checkboxSelection
         disableSelectionOnClick
         style={{ height: "700px", widht: "100%"}}
-        columnBuffer={8}
+        columnBuffer={10}
       />
     </div>
   );
