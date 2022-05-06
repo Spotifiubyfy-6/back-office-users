@@ -168,3 +168,19 @@ test('When a viewUserButton is clicked but server is down, error message is show
     fireEvent.click(button);
     await screen.findByText("Error: Server is not available. Try again later.");
 })
+
+test('When a viewUserButton is clicked, button GoBack is shown on screen', async () => {
+    const apiMock = {
+        getUserInfoWithId: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    const button = screen.getByRole('button', {name: 'viewUser1'});
+    fireEvent.click(button);
+    await screen.findByText("Go Back");
+})
