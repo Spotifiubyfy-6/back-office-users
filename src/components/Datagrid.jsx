@@ -23,7 +23,9 @@ export default function DataGridUsers(props) {
         headerName: 'View User',
         width: 90,
         renderCell: (params) => {
-                return <strong><ViewUserButton/></strong>;
+                return <strong>
+                    <ViewUserButton onClick={props.apiHandler.getUserInfoWithId} params={params.id}/>
+                </strong>;
         },
     },
     {
