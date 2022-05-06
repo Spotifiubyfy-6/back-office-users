@@ -3,11 +3,14 @@ import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
+import ImageButton from "./Datagrid/ImageButton"
+import UserProfileButton from "./Datagrid/UserProfileButton";
 
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
   const [deleteButtonError, setDeleteError] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     setRows(props.rows)
   }, [])
@@ -16,7 +19,23 @@ export default function DataGridUsers(props) {
     { 
       field: 'id',
       headerName: 'ID',
-      width: 90 }, 
+      width: 90
+    },
+    {
+        field: 'viewUser',
+        headerName: 'View User',
+        width: 90,
+        renderCell: (params) => {
+                const funcParams = {
+                    id: params.id,
+                    apiHandler: props.apiHandler,
+                    setError: setDeleteError
+                }
+                return <strong>
+                    <UserProfileButton funcParams={funcParams}/>
+                </strong>;
+        },
+    },
     {
       field: 'user_type',
       headerName: 'User Type',
@@ -76,7 +95,7 @@ export default function DataGridUsers(props) {
                   onClick={() => {
                     props.apiHandler.setAsAdmin(params.row.id)
                     .then((res) => { 
-                     window.location.reload(false);
+                       window.location.reload(false);
                     })
                     .catch((error) => {
                         setDeleteError("Server is not available. Try again later.");
@@ -89,7 +108,6 @@ export default function DataGridUsers(props) {
       },
     }
   ];
-
   return (
     <div >
       <ErrorBox errorString={deleteButtonError}/>
@@ -101,7 +119,7 @@ export default function DataGridUsers(props) {
         checkboxSelection
         disableSelectionOnClick
         style={{ height: "700px", widht: "100%"}}
-        columnBuffer={8}
+        columnBuffer={10}
       />
     </div>
   );

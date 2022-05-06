@@ -121,3 +121,66 @@ test('Admins do not have setAdmin button', async () => {
     expect(() => screen.getByRole('button', {name: 'setUser1AsAdmin'})).toThrow();
     expect(() => screen.getByRole('button', {name: 'setUser2AsAdmin'})).toThrow();
 })
+
+test('Both listener and admin have a view profile button.', async () => {
+    const apiMock = {
+        getUserInfoWithId: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    screen.getByRole('button', {name: 'viewUser1'});
+    screen.getByRole('button', {name: 'viewUser3'});
+})
+
+test('When a viewUserButton is clicked, the ApiHandler method getUserInfoWithId is called', async () => {
+    const apiMock = {
+        getUserInfoWithId: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    const button = screen.getByRole('button', {name: 'viewUser1'});
+    fireEvent.click(button);
+    expect(apiMock.getUserInfoWithId).toHaveBeenCalledTimes(1);
+})
+
+test('When a viewUserButton is clicked but server is down, error message is shown on screen', async () => {
+    const apiMock = {
+        getUserInfoWithId: jest.fn(() => Promise.reject(new Error("500")))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    const button = screen.getByRole('button', {name: 'viewUser1'});
+    fireEvent.click(button);
+    await screen.findByText("Error: Server is not available. Try again later.");
+})
+
+test('When a viewUserButton is clicked, button GoBack is shown on screen', async () => {
+    const apiMock = {
+        getUserInfoWithId: jest.fn(() => Promise.resolve(returnData.SUCCESS))
+    };
+    const rows = [
+        { id: 1, user_type: 'admin', username: 'admin', email: 'admin@gmail.com'},
+        { id: 2, user_type: 'admin', username: 'pedro', email: 'pedro@gmail.com'},
+        { id: 3, user_type: 'listener', username: 'paco', email: 'paco@gmail.com'},
+    ];
+    render(<DataGridUsers apiHandler={apiMock} rows={rows}/>);
+
+    const button = screen.getByRole('button', {name: 'viewUser1'});
+    fireEvent.click(button);
+    await screen.findByText("Go Back");
+})
