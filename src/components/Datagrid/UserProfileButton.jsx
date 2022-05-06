@@ -13,6 +13,7 @@ function handleViewUserButtonClick(params) {
     params.apiHandler.getUserInfoWithId(params.id)
         .then((res) => {
             params.setOpen(true);
+            params.setUserInfo(res.data);
         }).catch((err) => {
             params.setError("Server is not available. Try again later.");
         });
@@ -20,7 +21,7 @@ function handleViewUserButtonClick(params) {
 
 export default function UserProfileButton(props) {
     const [open, setOpen] = React.useState(false);
-
+    const [userInfo, setUserInfo] = React.useState(null);
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,8 +40,10 @@ export default function UserProfileButton(props) {
         id: props.funcParams.id,
         apiHandler: props.funcParams.apiHandler,
         setOpen: setOpen,
+        setUserInfo: setUserInfo,
         setError: props.funcParams.setError
     }
+
     return (
         <div>
             <ImageButton onClick={handleViewUserButtonClick} params={funcParams}
@@ -53,19 +56,22 @@ export default function UserProfileButton(props) {
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
-                <DialogTitle id="scroll-dialog-title">The Beatles</DialogTitle>
+                <DialogTitle id="scroll-dialog-title">{(userInfo) ? (userInfo.username) : ''}</DialogTitle>
                 <DialogContent dividers={true}>
+                    <ul>
+                        <li>Email: {((userInfo) && (userInfo.email)) ? (userInfo.email) : 'Not specified'}</li>
+                        <li>User type: {((userInfo) && (userInfo.user_type)) ? (userInfo.user_type) : 'Not specified'}</li>
+                        <li>user_suscription: {((userInfo) && (userInfo.user_suscription)) ? (userInfo.user_suscription) : 'Not specified'}</li>
+                        <li>Location: {((userInfo) && (userInfo.location)) ? (userInfo.location) : 'Not specified'}</li>
+                        <li>Interests: {((userInfo) && (userInfo.interests.length)) ?
+                            (<ul> {userInfo.interests.map((element) => <li>{element}</li>)} </ul>) :
+                            'Not specified'}</li>
+                    </ul>
                     <DialogContentText
                         id="scroll-dialog-description"
                         ref={descriptionElementRef}
                         tabIndex={-1}
                     >
-                        The Beatles were an English rock band, formed in Liverpool in 1960, that comprised John Lennon, Paul McCartney, George Harrison and Ringo Starr.
-                        They are regarded as the most influential band of all time[1] and were integral to the development of 1960s counterculture and popular music's
-                        recognition as an art form.[2] Rooted in skiffle, beat and 1950s rock and roll, their sound incorporated elements of classical music and
-                        traditional pop in innovative ways; the band later explored music styles ranging from ballads and Indian music to psychedelia and hard rock.
-                        As pioneers in recording, songwriting and artistic presentation, the Beatles revolutionised many aspects of the music industry and were often
-                        publicised as leaders of the era's youth and sociocultural movements.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
