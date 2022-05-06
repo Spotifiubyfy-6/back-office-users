@@ -3,7 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
-
+import ViewUserButton from "./Datagrid/ViewUserButton"
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
@@ -16,7 +16,16 @@ export default function DataGridUsers(props) {
     { 
       field: 'id',
       headerName: 'ID',
-      width: 90 }, 
+      width: 90
+    },
+    {
+        field: 'viewUser',
+        headerName: 'View User',
+        width: 90,
+        renderCell: (params) => {
+                return <strong><ViewUserButton/></strong>;
+        },
+    },
     {
       field: 'user_type',
       headerName: 'User Type',
