@@ -53,6 +53,8 @@ export default function UserProfileButton(props) {
                 open={open}
                 onClose={handleClose}
                 scroll={"paper"}
+                fullWidth={true}
+                maxWidth={true}
                 aria-labelledby="scroll-dialog-title"
                 aria-describedby="scroll-dialog-description"
             >
