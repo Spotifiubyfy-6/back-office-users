@@ -3,7 +3,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
-import ViewUserButton from "./Datagrid/ViewUserButton"
+import ImageButton from "./Datagrid/ImageButton"
+
+const image_src = "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
+
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
@@ -24,7 +27,8 @@ export default function DataGridUsers(props) {
         width: 90,
         renderCell: (params) => {
                 return <strong>
-                    <ViewUserButton onClick={props.apiHandler.getUserInfoWithId} params={params.id}/>
+                    <ImageButton onClick={props.apiHandler.getUserInfoWithId} params={params.id}
+                                    src={image_src} height="40" width="40" alt={"View User"}/>
                 </strong>;
         },
     },
@@ -87,7 +91,7 @@ export default function DataGridUsers(props) {
                   onClick={() => {
                     props.apiHandler.setAsAdmin(params.row.id)
                     .then((res) => { 
-                     window.location.reload(false);
+                       window.location.reload(false);
                     })
                     .catch((error) => {
                         setDeleteError("Server is not available. Try again later.");
