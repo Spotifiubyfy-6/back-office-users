@@ -76,6 +76,21 @@ class APIHandler {
         };
         return axios(config);
     }
+
+    async getUserInfoWithId(user_id) {
+           const endpoint = this.endPointApiUsers + 'user_by_id/' + user_id;
+           let config = {
+               method: 'get',
+               url: endpoint,
+               headers: {
+                   'accept': 'application/json',
+                   'Authorization': this.token,
+                   'Access-Control-Allow-Origin': 'true'
+               }
+           }
+           return axios(config);
+       }
+
 }
 
 export default APIHandler;
