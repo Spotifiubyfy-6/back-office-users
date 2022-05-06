@@ -8,7 +8,12 @@ import ImageButton from "./Datagrid/ImageButton"
 const image_src = "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
 
 function handleViewUserButtonClick(params) {
-   params.apiHandler.getUserInfoWithId(params.id);
+    params.apiHandler.getUserInfoWithId(params.id)
+   .then((res) => {
+
+    }).catch((err) => {
+        params.setError("Server is not available. Try again later.");
+    });
 }
 
 export default function DataGridUsers(props) {
@@ -32,7 +37,8 @@ export default function DataGridUsers(props) {
         renderCell: (params) => {
                 const funcParams = {
                     id: params.id,
-                    apiHandler: props.apiHandler
+                    apiHandler: props.apiHandler,
+                    setError: setDeleteError
                 }
                 return <strong>
                     <ImageButton onClick={handleViewUserButtonClick} params={funcParams}
