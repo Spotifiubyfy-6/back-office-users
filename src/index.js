@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Route, Routes } from 'react-router-dom';
 import Users from './routes/users'
 import Metrics from './routes/metrics'
+import Content from './routes/Content'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,6 +17,7 @@ root.render(
                 <Route path="/" element={<App apiHandler = {apiHandler}/>}>    
                     <Route path="/userstable" element={<Users apiHandler = {apiHandler} />} />
                     <Route path="/metrics" element={<Metrics/>} />
+                    <Route path="/content" element={<Content apiHandler = {apiHandler} />} />
                 </Route>
             </Routes>
         </BrowserRouter>
