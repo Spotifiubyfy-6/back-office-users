@@ -4,22 +4,13 @@ import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
 import ImageButton from "./Datagrid/ImageButton"
-
-const image_src = "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
-
-function handleViewUserButtonClick(params) {
-    params.apiHandler.getUserInfoWithId(params.id)
-   .then((res) => {
-
-    }).catch((err) => {
-        params.setError("Server is not available. Try again later.");
-    });
-}
+import UserProfileButton from "./Datagrid/UserProfileButton";
 
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
   const [deleteButtonError, setDeleteError] = useState('');
+  const [userInfo, setUserInfo] = useState(null);
   useEffect(() => {
     setRows(props.rows)
   }, [])
@@ -41,9 +32,7 @@ export default function DataGridUsers(props) {
                     setError: setDeleteError
                 }
                 return <strong>
-                    <ImageButton onClick={handleViewUserButtonClick} params={funcParams}
-                                 src={image_src} height="40" width="40" alt={"View User"}
-                                 arialLabel={'viewUser' + params.row.id}/>
+                    <UserProfileButton funcParams={funcParams}/>
                 </strong>;
         },
     },
@@ -119,7 +108,6 @@ export default function DataGridUsers(props) {
       },
     }
   ];
-
   return (
     <div >
       <ErrorBox errorString={deleteButtonError}/>
