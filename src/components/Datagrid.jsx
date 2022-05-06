@@ -7,6 +7,10 @@ import ImageButton from "./Datagrid/ImageButton"
 
 const image_src = "https://www.seekpng.com/png/detail/966-9665493_my-profile-icon-blank-profile-image-circle.png"
 
+function handleViewUserButtonClick(params) {
+   params.apiHandler.getUserInfoWithId(params.id);
+}
+
 export default function DataGridUsers(props) {
   
   const [rows, setRows] = useState([]);
@@ -26,8 +30,12 @@ export default function DataGridUsers(props) {
         headerName: 'View User',
         width: 90,
         renderCell: (params) => {
+                const funcParams = {
+                    id: params.id,
+                    apiHandler: props.apiHandler
+                }
                 return <strong>
-                    <ImageButton onClick={props.apiHandler.getUserInfoWithId} params={params.id}
+                    <ImageButton onClick={handleViewUserButtonClick} params={funcParams}
                                  src={image_src} height="40" width="40" alt={"View User"}
                                  arialLabel={'viewUser' + params.row.id}/>
                 </strong>;
