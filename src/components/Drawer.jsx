@@ -7,6 +7,8 @@ import {Drawer as MUIDrawer,
 import PersonIcon from '@mui/icons-material/Person';
 import InsightsIcon from '@mui/icons-material/Insights';
 import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import AlbumIcon from '@mui/icons-material/Album';
+import MicExternalOnIcon from '@mui/icons-material/MicExternalOn';
 import { Link, useLocation } from 'react-router-dom';
 import Button from "@mui/material/Button";
 
@@ -28,9 +30,19 @@ const Drawer = () => {
       text: "Metrics"
     },
     {
-      url: "content",
+      url: "songs",
       icon: <MusicNoteIcon/>,
-      text: "Content"
+      text: "Songs"
+    },
+    {
+      url: "albums",
+      icon: <AlbumIcon/>,
+      text: "Albums"
+    },
+    {
+      url: "artists",
+      icon: <MicExternalOnIcon/>,
+      text: "Artists"
     }
   ]
   const {pathname} = useLocation()
