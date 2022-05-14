@@ -18,12 +18,13 @@ function validateNumberAndCallHandler(input, handler, setError, defaultNumber) {
         setError(true);
         return;
     }
-    handler(input);
+    handler(parseInt(input));
 }
 
 export default function NumericTextField(props) {
     const [error, setError] = useState(false);
-
+    if (!props.handler)
+        return null;
     return (<div>
         <TextField error={error} label="Days ago" inputProps={{ 'aria-label': 'daysAgoTextField' }} margin="normal"
                    defaultValue={(props.defaultValue)?props.defaultValue:''} helperText="Enter a number."

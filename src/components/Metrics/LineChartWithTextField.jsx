@@ -11,6 +11,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import "./style.css"
+import NumericTextField from "./NumericTextField";
 
 ChartJS.register(
     CategoryScale,
@@ -60,9 +61,17 @@ export const data = {
     ],
 };
 
+function handler(number) {
+    console.log(number);
+}
+
 export default function LineChartWithTextField(props) {
+
     return (<div>
-        <Line width={(props.width)?props.width:750} height={(props.height)?props.height:200}
-                        options={options} data={data} />
+        <NumericTextField defaultValue={7} handler={handler}/>
+        <div>
+            <Line width={(props.width)?props.width:750} height={(props.height)?props.height:200}
+                        options={options} data={data}/>
+        </div>
     </div>);
 }
