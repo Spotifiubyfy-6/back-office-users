@@ -66,7 +66,7 @@ function handler(months, args) {
                     {
                         label: args.title,
                         data: parsedData,
-                        borderColor: 'rgb(255, 99, 132)',
+                        borderColor: args.color,
                         backgroundColor: 'rgba(255, 99, 132, 0.5)'
                     },
                 ],
@@ -81,7 +81,7 @@ export default function LineChartWithMonthSelector(props) {
             {
                 label: 'LogIns with user and password',
                 data: [],
-                borderColor: 'rgb(255, 99, 132)',
+                borderColor: props.color,
                 backgroundColor: 'rgba(255, 99, 132, 0.5)'
             },
         ],
@@ -100,7 +100,7 @@ export default function LineChartWithMonthSelector(props) {
                         {
                             label: props.title,
                             data: parsedData,
-                            borderColor: 'rgb(255, 99, 132)',
+                            borderColor: props.color,
                             backgroundColor: 'rgba(255, 99, 132, 0.5)'
                         },
                     ],
@@ -114,7 +114,8 @@ export default function LineChartWithMonthSelector(props) {
         apiHandler: props.apiHandler,
         setChartsData: setChartsData,
         setNumberOfMonths: setNumberOfMonths,
-        title: props.title
+        title: props.title,
+        color: props.color
     };
 
     options.scales.y.title.text = (props.yTitle)?props.yTitle:'';
