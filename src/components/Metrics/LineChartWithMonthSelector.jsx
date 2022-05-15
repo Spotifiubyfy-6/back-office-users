@@ -59,7 +59,7 @@ function handler(months, args) {
     args.apiHandler.getMetricsDataFromDaysAgo(args.metrics_id, months * 30)
         .then((res) => {
             args.setNumberOfMonths(months);
-            const labels = [...Array(months * 30).keys()];
+            const labels = [...Array(res.length).keys()];
             console.log(labels);
             const parsedData = parseData(res);
             args.setChartsData({
