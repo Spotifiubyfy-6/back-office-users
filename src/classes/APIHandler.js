@@ -96,7 +96,8 @@ class APIHandler {
        }
 
     async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
-        const data = Array.from({length: days_ago}, () => Math.floor(Math.random() * 100));
+        const max_days = (days_ago>10)?10:days_ago;
+        const data = Array.from({length: max_days}, () => Math.floor(Math.random() * 100));
         return Promise.resolve(data);
     }
 }

@@ -3,8 +3,6 @@ import LineChartWithMonthSelector from "../components/Metrics/LineChartWithMonth
 import "../components/Metrics/style.css"
 
 export default function metrics(props) {
-  if (!props.apiHandler)
-    console.log("eeee");
   return (
   <div className="container">
     <div className="row">

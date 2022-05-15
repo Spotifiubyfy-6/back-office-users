@@ -55,12 +55,10 @@ function parseData(data) {
 }
 
 function handler(months, args) {
-    console.log(months);
     args.apiHandler.getMetricsDataFromDaysAgo(args.metrics_id, months * 30)
         .then((res) => {
             args.setNumberOfMonths(months);
-            const labels = [...Array(res.length).keys()];
-            console.log(labels);
+            const labels = [...Array(res.length).keys()].reverse();
             const parsedData = parseData(res);
             args.setChartsData({
                 labels: labels,
@@ -77,8 +75,6 @@ function handler(months, args) {
 }
 
 export default function LineChartWithMonthSelector(props) {
-    if (!props.apiHandler)
-        console.log("not defined");
     const [chartsData, setChartsData] = useState({
         labels: defaultLabels,
         datasets: [
@@ -96,11 +92,8 @@ export default function LineChartWithMonthSelector(props) {
     useEffect(() => {
         props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, numberOfMonths * 30)
             .then((res) => {
-                const labels = [...Array(numberOfMonths * 30).keys()];
-                console.log(labels);
-                console.log(res);
+                const labels = [...Array(res.length).keys()].reverse();
                 const parsedData = parseData(res);
-                console.log(parsedData);
                 setChartsData({
                     labels: labels,
                     datasets: [

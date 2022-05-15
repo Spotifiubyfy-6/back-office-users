@@ -8,7 +8,6 @@ function handleChange(input, handler, handlerArgs) {
 }
 
 export default function NumberOfMonthsSelector(props) {
-    const [error, setError] = useState(false);
     if (!props.handler)
         return null;
     return (<div>
@@ -28,9 +27,3 @@ export default function NumberOfMonthsSelector(props) {
         </FormControl>
     </div>);
 }
-
-/*        <Select label="Days ago" inputProps={{ 'aria-label': 'daysAgoTextField' }} margin="normal"
-                   defaultValue={(props.defaultValue)?props.defaultValue:''} helperText="Enter a number."
-                   onChange={(e)=> validateNumberAndCallHandler(e.target.value, props.handler,
-                       setError, props.defaultValue, props.handler_args)}
-        />*/
