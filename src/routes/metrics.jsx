@@ -8,7 +8,9 @@ export default function metrics(props) {
   return (
   <div className="container">
     <div className="row">
-      <div> <LineChartWithMonthSelector width={750} height={200} apiHandler={props.apiHandler} metrics_id={1}/> </div>
+      <div> <LineChartWithMonthSelector xTitle={'Days ago'} yTitle={'Quantity of LogIns'}
+                                        title={'LogIns with user and password'}
+          width={750} height={200} apiHandler={props.apiHandler} metrics_id={1}/> </div>
     </div>
   </div>);
 }
