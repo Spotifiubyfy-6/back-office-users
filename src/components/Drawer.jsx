@@ -53,7 +53,7 @@ const Drawer = () => {
           {itemList.map((item, index) => {
             const {text, icon, url} = item;
             return (
-            <ListItemButton key={text} component={Link} to={"/" + url} selected={("/" + url) === pathname}>
+            <ListItemButton key={text} component={Link} to={"/" + url} selected={pathname.includes(("/" + url)) }>
             <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text}  />
             </ListItemButton>
