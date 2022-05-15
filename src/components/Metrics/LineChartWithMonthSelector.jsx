@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import "./style.css"
-import NumericTextField from "./NumericTextField";
+import NumberOfMonthsSelector from "./NumberOfMonthsSelector";
 
 ChartJS.register(
     CategoryScale,
@@ -49,17 +49,17 @@ const options = {
 };
 
 const defaultLabels = ['6', '5', '4', '3', '2', '1', '0'];
-const defaultValue = 7;
 
 function parseData(data) {
     return data;
 }
 
-function handler(number, args) {
-    console.log(number);
-    args.apiHandler.getMetricsDataFromDaysAgo(args.metrics_id, number)
+function handler(months, args) {
+    console.log(months);
+    args.apiHandler.getMetricsDataFromDaysAgo(args.metrics_id, months * 30)
         .then((res) => {
-            const labels = [...Array(number).keys()];
+            args.setNumberOfMonths(months);
+            const labels = [...Array(months * 30).keys()];
             console.log(labels);
             const parsedData = parseData(res);
             args.setChartsData({
@@ -76,7 +76,7 @@ function handler(number, args) {
         }).catch((err)=>console.log("error!"));
 }
 
-export default function LineChartWithTextField(props) {
+export default function LineChartWithMonthSelector(props) {
     if (!props.apiHandler)
         console.log("not defined");
     const [chartsData, setChartsData] = useState({
@@ -91,11 +91,12 @@ export default function LineChartWithTextField(props) {
         ],
     });
     const [haveData, setHaveData] = useState(false);
+    const [numberOfMonths, setNumberOfMonths] = useState(1);
 
     useEffect(() => {
-        props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, defaultValue)
+        props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, numberOfMonths * 30)
             .then((res) => {
-                const labels = [...Array(defaultValue).keys()];
+                const labels = [...Array(numberOfMonths * 30).keys()];
                 console.log(labels);
                 console.log(res);
                 const parsedData = parseData(res);
@@ -118,14 +119,15 @@ export default function LineChartWithTextField(props) {
     const handler_args = {
         metrics_id: props.metrics_id,
         apiHandler: props.apiHandler,
-        setChartsData: setChartsData
+        setChartsData: setChartsData,
+        setNumberOfMonths: setNumberOfMonths
     };
 
     if (!haveData)
         return <div>Loading...</div>
     else
         return (<div>
-            <NumericTextField defaultValue={defaultValue} handler={handler} handler_args={handler_args}/>
+            <NumberOfMonthsSelector defaultValue={numberOfMonths} handler={handler} handler_args={handler_args}/>
             <div>
                 <Line width={(props.width) ? props.width : 750} height={(props.height) ? props.height : 200}
                       options={options} data={chartsData} />

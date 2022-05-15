@@ -1,5 +1,5 @@
 import React from 'react';
-import LineChartWithTextField from "../components/Metrics/LineChartWithTextField"
+import LineChartWithMonthSelector from "../components/Metrics/LineChartWithMonthSelector"
 import "../components/Metrics/style.css"
 
 export default function metrics(props) {
@@ -8,7 +8,7 @@ export default function metrics(props) {
   return (
   <div className="container">
     <div className="row">
-      <div> <LineChartWithTextField width={750} height={200} apiHandler={props.apiHandler} metrics_id={1}/> </div>
+      <div> <LineChartWithMonthSelector width={750} height={200} apiHandler={props.apiHandler} metrics_id={1}/> </div>
     </div>
   </div>);
 }
