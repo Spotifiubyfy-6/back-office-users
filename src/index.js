@@ -16,7 +16,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<App apiHandler = {apiHandler}/>}>    
                     <Route path="/userstable" element={<Users apiHandler = {apiHandler} />} />
-                    <Route path="/metrics" element={<Metrics/>} />
+                    <Route path="/metrics" element={<Metrics apiHandler = {apiHandler}/>} />
                     <Route path="/content" element={<Content apiHandler = {apiHandler} />} />
                 </Route>
             </Routes>
