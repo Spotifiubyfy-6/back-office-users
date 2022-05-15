@@ -18,8 +18,8 @@ root.render(
             <Routes>
                 <Route path="/" element={<App apiHandler = {apiHandler}/>}>    
                     <Route path="/userstable" element={<Users apiHandler = {apiHandler} />} />
-                    <Route path="/metrics" element={<Metrics/>} />
-                    <Route path="/songs" element={<Songs apiHandler = {apiHandler} />} />
+                    <Route path="/metrics" element={<Metrics apiHandler = {apiHandler} />}/>
+                    <Route exact path="/songs" element={<Songs apiHandler = {apiHandler} />} />
                     <Route path="/albums" element={<Albums apiHandler = {apiHandler} />} />
                     <Route path="/artists" element={<Artists apiHandler = {apiHandler} />} />
                 </Route>
