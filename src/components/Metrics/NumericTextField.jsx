@@ -8,17 +8,17 @@ function isNumeric(str) {
         !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
 } //From https://stackoverflow.com/questions/175739/how-can-i-check-if-a-string-is-a-valid-number
 
-function validateNumberAndCallHandler(input, handler, setError, defaultNumber) {
+function validateNumberAndCallHandler(input, handler, setError, defaultNumber, handlerArgs) {
     setError(false);
     if (input === '') {
-        handler(defaultNumber);
+        handler(defaultNumber, handlerArgs);
         return;
     }
     if (!isNumeric(input)) {
         setError(true);
         return;
     }
-    handler(parseInt(input));
+    handler(parseInt(input), handlerArgs);
 }
 
 export default function NumericTextField(props) {
@@ -29,7 +29,7 @@ export default function NumericTextField(props) {
         <TextField error={error} label="Days ago" inputProps={{ 'aria-label': 'daysAgoTextField' }} margin="normal"
                    defaultValue={(props.defaultValue)?props.defaultValue:''} helperText="Enter a number."
                    onChange={(e)=> validateNumberAndCallHandler(e.target.value, props.handler,
-                       setError, props.defaultValue)}
+                       setError, props.defaultValue, props.handler_args)}
         />
     </div>);
 }
