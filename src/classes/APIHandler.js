@@ -3,6 +3,10 @@ import returnData from "./APIHandlerConstants"
 import React from "react";
 import axios from "axios";
 
+//const labels = ['6', '5', '4', '3', '2', '1', '0'];
+//const data = labels.map(() => Math.floor(Math.random() * 1000));
+
+
 class APIHandler {
     constructor() {
         const aux = localStorage.getItem('token');
@@ -91,6 +95,10 @@ class APIHandler {
            return axios(config);
        }
 
+    async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
+        const data = Array.from({length: days_ago}, () => Math.floor(Math.random() * 100));
+        return Promise.resolve(data);
+    }
 }
 
 export default APIHandler;
