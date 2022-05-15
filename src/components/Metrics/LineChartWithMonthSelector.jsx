@@ -36,13 +36,13 @@ const options = {
         y: {
             title: {
                 display: true,
-                text: 'Quantity of LogIns'
+                text: ''
             }
         },
         x: {
             title: {
                 display: true,
-                text: 'Days ago'
+                text: ''
             }
         }
     }
@@ -66,7 +66,7 @@ function handler(months, args) {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'LogIns with user and password',
+                        label: args.title,
                         data: parsedData,
                         borderColor: 'rgb(255, 99, 132)',
                         backgroundColor: 'rgba(255, 99, 132, 0.5)'
@@ -105,7 +105,7 @@ export default function LineChartWithMonthSelector(props) {
                     labels: labels,
                     datasets: [
                         {
-                            label: 'LogIns with user and password',
+                            label: props.title,
                             data: parsedData,
                             borderColor: 'rgb(255, 99, 132)',
                             backgroundColor: 'rgba(255, 99, 132, 0.5)'
@@ -120,8 +120,12 @@ export default function LineChartWithMonthSelector(props) {
         metrics_id: props.metrics_id,
         apiHandler: props.apiHandler,
         setChartsData: setChartsData,
-        setNumberOfMonths: setNumberOfMonths
+        setNumberOfMonths: setNumberOfMonths,
+        title: props.title
     };
+
+    options.scales.y.title.text = (props.yTitle)?props.yTitle:'';
+    options.scales.x.title.text = (props.xTitle)?props.xTitle:'';
 
     if (!haveData)
         return <div>Loading...</div>
