@@ -51,15 +51,18 @@ const options = {
 const defaultLabels = ['6', '5', '4', '3', '2', '1', '0'];
 
 function parseData(data) {
-    return data;
+    const data_list = [];
+    for (const key of Object.keys(data))
+        data_list.unshift(data[key]);
+    return data_list;
 }
 
 function handler(months, args) {
     args.apiHandler.getMetricsDataFromDaysAgo(args.metrics_id, months * 30)
         .then((res) => {
             args.setNumberOfMonths(months);
-            const labels = [...Array(res.length).keys()].reverse();
-            const parsedData = parseData(res);
+            const parsedData = parseData(res.data);
+            const labels = [...Array(parsedData.length).keys()].reverse();
             args.setChartsData({
                 labels: labels,
                 datasets: [
@@ -92,8 +95,8 @@ export default function LineChartWithMonthSelector(props) {
     useEffect(() => {
         props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, numberOfMonths * 30)
             .then((res) => {
-                const labels = [...Array(res.length).keys()].reverse();
-                const parsedData = parseData(res);
+                const parsedData = parseData(res.data);
+                const labels = [...Array(parsedData.length).keys()].reverse();
                 setChartsData({
                     labels: labels,
                     datasets: [
