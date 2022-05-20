@@ -91,6 +91,22 @@ class APIHandler {
            return axios(config);
        }
 
+    async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
+        const metric_type = metrics_id + 100;
+        //'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/102?n=10&skip=0&limit=100'
+        const endpoint = 'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/' + metric_type +
+            '?n=' + days_ago + '&skip=0&limit=100';
+        let config = {
+            method: 'get',
+            url: endpoint,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
 }
 
 export default APIHandler;
