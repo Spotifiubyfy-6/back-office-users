@@ -3,10 +3,6 @@ import returnData from "./APIHandlerConstants"
 import React from "react";
 import axios from "axios";
 
-//const labels = ['6', '5', '4', '3', '2', '1', '0'];
-//const data = labels.map(() => Math.floor(Math.random() * 1000));
-
-
 class APIHandler {
     constructor() {
         const aux = localStorage.getItem('token');
@@ -96,9 +92,20 @@ class APIHandler {
        }
 
     async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
-        const max_days = (days_ago>10)?10:days_ago;
-        const data = Array.from({length: max_days}, () => Math.floor(Math.random() * 100));
-        return Promise.resolve(data);
+        const metric_type = metrics_id + 100;
+        //'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/102?n=10&skip=0&limit=100'
+        const endpoint = 'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/' + metric_type +
+            '?n=' + days_ago + '&skip=0&limit=100';
+        let config = {
+            method: 'get',
+            url: endpoint,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
     }
 }
 
