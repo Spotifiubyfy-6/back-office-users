@@ -12,10 +12,10 @@ export default function NumberOfMonthsSelector(props) {
         return null;
     return (<div>
         <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <InputLabel id="demo-simple-select-label">Months ago</InputLabel>
             <Select
                 value={props.defaultValue}
-                label="Age"
+                label="Months ago"
                 onChange={(e) => handleChange(e.target.value, props.handler, props.handler_args)}
             >
                 <MenuItem value={1}>1 Month</MenuItem>
