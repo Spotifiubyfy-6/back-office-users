@@ -32,6 +32,9 @@ const options = {
             position: 'top'
         },
     },
+    ticks: {
+        precision:0
+    },
     scales: {
         y: {
             title: {
