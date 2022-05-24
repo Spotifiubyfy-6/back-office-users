@@ -14,31 +14,82 @@ const queryString = require('query-string')
 export default function MusicTable(props) {
 
     const rowsData = props.rows
+    const [rows, setRows] = useState(rowsData)
     
 
     useEffect(() => {
             const parameters = queryString.parse(window.location.search)
-            console.log("Nombre de album", parameters.album_name)
-
-            console.log("Nombre de artista", parameters.artist_name)
+            
+            if (parameters.album_name) {
+                if (props.searchParameter === 'songs') {
+                    props.apiHandler.getSongsFromAlbum(parameters.album_name)
+                    .then((db_songs) => {
+                        setRows(db_songs.data)
+                        console.log(db_songs.data)
+                    })
+                    .catch((error) => {
+                        console.log("Server is not available. Try again later.");
+                      })
+                }
+            } else if (parameters.artist_name) {
+                if (props.searchParameter === 'songs') {
+                    props.apiHandler.getSongsFromArtist(parameters.artist_name)
+                    .then((db_songs) => {
+                        setRows(db_songs.data)
+                        console.log(db_songs.data)
+                    })
+                    .catch((error) => {
+                        console.log("Server is not available. Try again later.");
+                      })
+                } else if (props.searchParameter === 'albums') {
+                    props.apiHandler.getAlbumsFromArtist(parameters.artist_name)
+                    .then((db_albums) => {
+                        setRows(db_albums.data)
+                        console.log(db_albums.data)
+                    })
+                    .catch((error) => {
+                        console.log("Server is not available. Try again later.");
+                      })
+                }
+                
+            }
 
 
 
     }, [])
     
     
-
-    const [rows, setRows] = useState(rowsData)
-
-
-    
     const handleSearchBarChange = (event) => {
-        console.log(event.target.value)
-        if (event.target.value === '') {
-            setRows(rowsData)
-        } else {
-            setRows(rowsData.filter((row) => row[props.searchParameter].includes(event.target.value)))
+
+        if (props.searchParameter === 'artist') {
+            props.apiHandler.getArtist(event.target.value)
+            .then((db_artist) => {
+                setRows(db_artist.data)
+                console.log(db_artist.data)
+            })
+            .catch((error) => {
+                console.log("Server is not available. Try again later.");
+              })
+        } else if (props.searchParameter === 'albums') {
+            props.apiHandler.getAlbums(event.target.value)
+            .then((db_albums) => {
+                setRows(db_albums.data)
+                console.log(db_albums.data)
+            })
+            .catch((error) => {
+                console.log("Server is not available. Try again later.");
+              })
+        } else if (props.searchParameter === 'songs') {
+            props.apiHandler.getSongs(event.target.value)
+            .then((db_songs) => {
+                setRows(db_songs.data)
+                console.log(db_songs.data)
+            })
+            .catch((error) => {
+                console.log("Server is not available. Try again later.");
+              })
         }
+        
     }
     return (
         <div >
