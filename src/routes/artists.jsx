@@ -4,11 +4,12 @@ import { Container, Button } from '@mui/material'
 const queryString = require('query-string')
 
 const columns =[
-    { field: 'name', width: 150 },
+    { field: 'id', width: 150 },
     
-    { field: 'albums', width: 150 },
-    { field: 'songs', width: 150 },
-    { field: 'genre', width: 150 },
+    { field: 'email', width: 150 },
+    { field: 'is_active', width: 150 },
+    { field: 'user_type', width: 150 },
+    { field: 'username', width: 150},
     {
       field: 'viewSongs',
       headerName: 'View Songs',
@@ -19,7 +20,7 @@ const columns =[
                   aria-label={'View Songs'}
                   onClick={() => {
                       const parsed = queryString.parse(window.location.search);
-                      parsed.artist_name = params.row.name
+                      parsed.artist_name = params.row.id
                       window.location.search = queryString.stringify(parsed)
                       window.location = '/songs/?' +  queryString.stringify(parsed)
                       
@@ -40,7 +41,7 @@ const columns =[
                   aria-label={'View Albums'}
                   onClick={() => {
                       const parsed = queryString.parse(window.location.search);
-                      parsed.artist_name = params.row.name
+                      parsed.artist_name = params.row.id
                       window.location.search = queryString.stringify(parsed)
                       window.location = '/albums/?' +  queryString.stringify(parsed)
                       
@@ -54,42 +55,11 @@ const columns =[
 ]
 
 
-const rows = [
-    {
-        id: 1,
-        name: 'All You Need is Love',
-        albums: 3,
-        songs: 50,
-        genre: "Rock"
-    },
-    
-    {
-        id: 2,
-        name: 'All You Need is Love',
-        albums: 3,
-        songs: 50,
-        genre: "Rock"
-    },
-    {
-        id: 3,
-        name: 'All You Need is Love',
-        albums: 3,
-        songs: 50,
-        genre: "Rock"
-    },
-    {
-        id: 4,
-        name: 'All You Need is Love',
-        albums: 3,
-        songs: 50,
-        genre: "Rock"
-    }
-    ]
 
 export default function artists(props) {
   return (
     <Container maxWidth={false}>
-      <MusicTable  apiHandler = {props.apiHandler} searchParameter = {"name"} columns = {columns} rows = {rows} />
+      <MusicTable  apiHandler = {props.apiHandler} searchParameter = {"artist"} columns = {columns} />
     </Container>
   )
 }
