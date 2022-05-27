@@ -60,7 +60,7 @@ export default function DataGridUsers(props) {
       width: 100
     },
     {
-      field: 'col5',
+      field: 'delete_user',
       headerName: 'Delete User',
       width: 150,
       renderCell: (params) => {

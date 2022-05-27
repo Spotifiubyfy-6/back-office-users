@@ -8,6 +8,7 @@ class APIHandler {
         const aux = localStorage.getItem('token');
         this.token = (aux == null) ? '' : aux;
         this.endPointApiUsers = 'https://spotifiubyfy-users.herokuapp.com/users/';
+        this.endPointApiMusic = 'https://spotifiubyfy-music.herokuapp.com/'
     }
 
     hasActiveToken() {
@@ -40,10 +41,91 @@ class APIHandler {
         })
     }
 
+
+    async getSongs(name) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiMusic + 'music?q=' + name + '&skip=0&limit=100',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
     async getUsers() {
         let config = {
             method: 'get',
             url: this.endPointApiUsers,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+    async getSongsFromArtist(id) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiMusic + 'artists/' + id + '/songs?skip=0&limit=100',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+    async getSongsFromAlbum(id) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiMusic + 'albums/' + id + '/tracks',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+    getAlbums(name) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiMusic + 'albums?q=' + name + '&skip=0&limit=100',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+
+    async getAlbumsFromArtist(id) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiMusic + 'artists/' + id + '/albums?skip=0&limit=100',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+
+    async getArtist(name) {
+        let config = {
+            method: 'get',
+            url: this.endPointApiUsers + 'artists/' + name + '?skip=0&limit=10',
             headers: {
                 'accept': 'application/json',
                 'Authorization': this.token,
@@ -94,7 +176,7 @@ class APIHandler {
     async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
         const metric_type = metrics_id + 100;
         //'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/102?n=10&skip=0&limit=100'
-        const endpoint = 'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/' + metric_type +
+        const endpoint = 'https://spotifiubyfy-metrics.herokuapp.com/events/event/by_day/' + metric_type +
             '?n=' + days_ago + '&skip=0&limit=100';
         let config = {
             method: 'get',
