@@ -55,7 +55,7 @@ export default function BasicModal(props) {
       >
         <Box sx={style}  display="flex" flexDirection="column" alignItems="center">
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Send Funds To User {props.userId}  
+            Charge Funds To User {props.userId}  
           </Typography>
             {alert ? <Alert severity={alertType} >{alertContent}</Alert> : <></> }
             <TextField id="standard-basic" label="Funds" style={{'margin-top': 10}} onChange = {(e) => setFunds(e.target.value)}/>
