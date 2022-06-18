@@ -107,8 +107,51 @@ export default function DataGridUsers(props) {
         </strong>
         }
       },
+    },
+    {
+      field: 'blockUser',
+      headerName: 'Block User',
+      width: 150,
+      renderCell: (params) => {
+        if (params.row.user_type !== "admin") {
+          if (params.row.is_active) {
+            return (<strong>
+              <Button variant="contained" color="error" size="small" style={{marginLeft: 16, width: '100%'}}
+                      aria-label={'blockUser' + params.row.id}
+                      onClick={() => {
+                        props.apiHandler.blockUser(params.row.id)
+                        .then((res) => { 
+                          window.location.reload(false);
+                        })
+                        .catch((error) => {
+                            setDeleteError("Server is not available. Try again later.");
+                        })
+                      }}>
+                Block User
+              </Button>
+            </strong>);
+          } else {
+            return (<strong>
+          <Button variant="contained" color="success" size="small" style={{marginLeft: 16}}
+                  aria-label={'unblockUser' + params.row.id}
+                  onClick={() => {
+                    props.apiHandler.unblockUser(params.row.id)
+                    .then((res) => {
+                        window.location.reload(false);
+                    })
+                    .catch((error) => {
+                        setDeleteError("Server is not available. Try again later.");
+                    })
+                  }}>
+                  Unblock User
+                  </Button>
+            </strong>);
+                    
+        }
+      }
     }
-  ];
+  }
+];
 
   function handleSearchBarChange(event) {
     props.apiHandler.getUsersSlice(event.target.value)

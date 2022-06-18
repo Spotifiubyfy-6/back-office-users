@@ -68,8 +68,34 @@ class APIHandler {
         return axios(config);
     }
 
-
     
+    
+    async blockUser(userId) {
+        let config = {
+            method: 'post',
+            url: 'https://spotifiubyfy-users.herokuapp.com/users/block/' + userId,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+    async unblockUser(userId) {
+        let config = {
+            method: 'post',
+            url: 'https://spotifiubyfy-users.herokuapp.com/users/unblock/' + userId,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
     async getUsersSlice(slice) {
         let config = {
             method: 'get',
