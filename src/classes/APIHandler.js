@@ -68,6 +68,22 @@ class APIHandler {
         return axios(config);
     }
 
+
+    
+    async getUsersSlice(slice) {
+        let config = {
+            method: 'get',
+            url: 'https://spotifiubyfy-users.herokuapp.com/users/information/' + slice + '?skip=0&limit=10',
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+
     async getSongsFromArtist(id) {
         let config = {
             method: 'get',

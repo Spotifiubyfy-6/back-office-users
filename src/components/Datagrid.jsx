@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
 import ImageButton from "./Datagrid/ImageButton"
 import UserProfileButton from "./Datagrid/UserProfileButton";
+import { TextField } from '@mui/material';
 
 export default function DataGridUsers(props) {
   
@@ -108,9 +109,23 @@ export default function DataGridUsers(props) {
       },
     }
   ];
+
+  function handleSearchBarChange(event) {
+    props.apiHandler.getUsersSlice(event.target.value)
+    .then((db_users) => {
+      setRows(db_users.data)
+      console.log(db_users.data)
+  })
+  .catch((error) => {
+    console.log(error)
+
+  })
+}
+
   return (
     <div >
       <ErrorBox errorString={deleteButtonError}/>
+      <TextField fullWidth label="Search" id="search" onChange={handleSearchBarChange}  />
       <DataGrid
         rows={rows}
         columns={columns}

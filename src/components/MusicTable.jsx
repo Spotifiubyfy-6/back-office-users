@@ -89,7 +89,6 @@ export default function MusicTable(props) {
                 console.log("Server is not available. Try again later.");
               })
         }
-        
     }
     return (
         <div >
