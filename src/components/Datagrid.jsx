@@ -6,9 +6,13 @@ import ErrorBox from "./ErrorBox";
 import ImageButton from "./Datagrid/ImageButton"
 import UserProfileButton from "./Datagrid/UserProfileButton";
 import { TextField } from '@mui/material';
+import BasicModal from './ModalFunds';
 
 export default function DataGridUsers(props) {
-  
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [rows, setRows] = useState([]);
   const [deleteButtonError, setDeleteError] = useState('');
   const [userInfo, setUserInfo] = useState(null);
@@ -149,6 +153,23 @@ export default function DataGridUsers(props) {
                     
         }
       }
+    }
+  },
+  {
+    field: 'sendFunds',
+    headerName: 'Send Funds',
+    width: 150,
+    renderCell: (params) => {
+      
+       return <strong>
+            <BasicModal
+        userId={params.row.id}
+        apiHandler={props.apiHandler}
+      >
+        Send Funds
+      </BasicModal>
+        
+      </strong>
     }
   }
 ];

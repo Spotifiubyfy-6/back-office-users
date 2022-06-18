@@ -2,6 +2,7 @@ import {getToken} from "../functions/getTokenRequest";
 import returnData from "./APIHandlerConstants"
 import React from "react";
 import axios from "axios";
+import qs from 'qs';
 
 class APIHandler {
     constructor() {
@@ -217,7 +218,6 @@ class APIHandler {
 
     async getMetricsDataFromDaysAgo(metrics_id, days_ago) {
         const metric_type = metrics_id + 100;
-        //'https://spotifiubyfy-metrics.herokuapp.com/events/by_day/102?n=10&skip=0&limit=100'
         const endpoint = 'https://spotifiubyfy-metrics.herokuapp.com/events/event/by_day/' + metric_type +
             '?n=' + days_ago + '&skip=0&limit=100';
         let config = {
@@ -229,6 +229,27 @@ class APIHandler {
                 'Access-Control-Allow-Origin': 'true'
             }
         }
+        return axios(config);
+    }
+
+    
+    async sendFunds(user_id, foundsToSend) {
+        const endpoint = 'https://spotifiubyfy-users.herokuapp.com/users/wallets/chargefounds';
+        var data = {
+            'receiver_id': user_id,
+            "foundsToSend": foundsToSend
+          };
+        let config = {
+            method: 'post',
+            url: endpoint,
+            headers: {
+                'Content-Type': 'application/json',
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            },
+            data: data
+        };
         return axios(config);
     }
 }
