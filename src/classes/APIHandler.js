@@ -76,6 +76,7 @@ class APIHandler {
                 'accept': 'application/json',
                 'Authorization': this.token,
                 'Access-Control-Allow-Origin': 'true'
+                
             }
         }
         return axios(config);
