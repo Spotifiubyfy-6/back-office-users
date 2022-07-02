@@ -18,6 +18,20 @@ export default function MusicTable(props) {
     
 
     useEffect(() => {
+
+            if (props.type == "blocked") {
+                props.apiHandler.getBlockedSongs()
+                .then((res) => {
+                    setRows(res.data)
+                }
+                )
+                .catch((error) => {
+                    console.log(error)
+                }
+                )
+            } else {
+                
+
             const parameters = queryString.parse(window.location.search)
             
             if (parameters.album_name) {
@@ -54,40 +68,43 @@ export default function MusicTable(props) {
                 
             }
 
+        }
+
 
 
     }, [])
     
     
     const handleSearchBarChange = (event) => {
-
-        if (props.searchParameter === 'artist') {
-            props.apiHandler.getArtist(event.target.value)
-            .then((db_artist) => {
-                setRows(db_artist.data)
-                console.log(db_artist.data)
-            })
-            .catch((error) => {
-                console.log("Server is not available. Try again later.");
-              })
-        } else if (props.searchParameter === 'albums') {
-            props.apiHandler.getAlbums(event.target.value)
-            .then((db_albums) => {
-                setRows(db_albums.data)
-                console.log(db_albums.data)
-            })
-            .catch((error) => {
-                console.log("Server is not available. Try again later.");
-              })
-        } else if (props.searchParameter === 'songs') {
-            props.apiHandler.getSongs(event.target.value)
-            .then((db_songs) => {
-                setRows(db_songs.data)
-                console.log(db_songs.data)
-            })
-            .catch((error) => {
-                console.log("Server is not available. Try again later.");
-              })
+        if (props.type != "blocked") {
+            if (props.searchParameter === 'artist') {
+                props.apiHandler.getArtist(event.target.value)
+                .then((db_artist) => {
+                    setRows(db_artist.data)
+                    console.log(db_artist.data)
+                })
+                .catch((error) => {
+                    console.log("Server is not available. Try again later.");
+                })
+            } else if (props.searchParameter === 'albums') {
+                props.apiHandler.getAlbums(event.target.value)
+                .then((db_albums) => {
+                    setRows(db_albums.data)
+                    console.log(db_albums.data)
+                })
+                .catch((error) => {
+                    console.log("Server is not available. Try again later.");
+                })
+            } else if (props.searchParameter === 'songs') {
+                props.apiHandler.getSongs(event.target.value)
+                .then((db_songs) => {
+                    setRows(db_songs.data)
+                    console.log(db_songs.data)
+                })
+                .catch((error) => {
+                    console.log("Server is not available. Try again later.");
+                })
+            }
         }
         
     }
@@ -96,7 +113,7 @@ export default function MusicTable(props) {
         
             <Box display="flex" sx={{height:"500px"}} >
                 <Box display="flex" flexDirection="column" sx={{width:"100%"}}>
-                    <TextField fullWidth label="Search" id="search" onChange={handleSearchBarChange}  />
+                    {props.type == "blocked" ?  null : <TextField fullWidth label="Search" id="search" onChange={handleSearchBarChange} />}
                     <DataGrid         
                     rows={rows}
                     columns={props.columns}

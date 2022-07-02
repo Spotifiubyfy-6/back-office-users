@@ -55,6 +55,45 @@ class APIHandler {
         return axios(config);
     }
 
+    async getBlockedSongs() {
+        let config = {
+            method: 'get',
+            url: 'https://spotifiubyfy-music.herokuapp.com/music/block?skip=0&limit=100',
+            headers: {
+                'accept': 'application/json',
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
+    
+
+    async blockSong(songId) {
+        let config = {
+            method: 'post',
+            url: "https://spotifiubyfy-music.herokuapp.com/music/block/" + songId,
+            headers: {
+                'accept': 'application/json',
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);        
+    }
+
+    async unBlockSong(songId) {
+        let config = {
+            method: 'post',
+            url: "https://spotifiubyfy-music.herokuapp.com/music/unblock/" + songId,
+            headers: {
+                'accept': 'application/json',
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);        
+    }
+
+
     async getUsers() {
         let config = {
             method: 'get',
