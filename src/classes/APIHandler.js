@@ -68,6 +68,20 @@ class APIHandler {
         return axios(config);
     }
 
+    async getTransactions() {
+        const endpoint = 'https://spotifiubyfy-users.herokuapp.com/transactions?skip=0&limit=100';
+        let config = {
+            method: 'get',
+            url: endpoint,
+            headers: {
+                'accept': 'application/json',
+                'Authorization': this.token,
+                'Access-Control-Allow-Origin': 'true'
+            }
+        }
+        return axios(config);
+    }
+
     async getSongsFromArtist(id) {
         let config = {
             method: 'get',

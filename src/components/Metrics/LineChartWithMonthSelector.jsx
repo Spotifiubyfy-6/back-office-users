@@ -13,6 +13,8 @@ import {
 import { Line } from 'react-chartjs-2';
 import "./style.css"
 import NumberOfMonthsSelector from "./NumberOfMonthsSelector";
+import { DataGrid } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 ChartJS.register(
     CategoryScale,
@@ -23,6 +25,44 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+const transactionColumns = [
+    { 
+      field: 'type',
+      headerName: 'Type',
+      width: 90
+    },
+    {
+        field: 'sender_id',
+        headerName: 'Sender Id',
+        width: 90
+    },
+    {
+      field: 'amount',
+      headerName: 'amount',
+      width: 90,
+    }, 
+    {
+      field: 'receiver_id',
+      headerName: 'receiver Id',
+      width: 90,
+    },
+    {
+      field: 'transaction_id',
+      headerName: 'Transaction Id',
+      sortable: false,
+      width: 90,
+      
+    },
+    {
+      field: 'time',
+      headerName: 'time',
+      sortable: true,
+      width: 90
+    }
+  ];
+
+
 
 const options = {
     responsive: true,
@@ -81,6 +121,8 @@ function handler(months, args) {
 }
 
 export default function LineChartWithMonthSelector(props) {
+
+    const [rows, setRows] = useState([]);
     const [chartsData, setChartsData] = useState({
         labels: defaultLabels,
         datasets: [
@@ -96,6 +138,13 @@ export default function LineChartWithMonthSelector(props) {
     const [numberOfMonths, setNumberOfMonths] = useState(1);
 
     useEffect(() => {
+        //get transactions
+        props.apiHandler.getTransactions()
+            .then((res) => {
+                setRows(res.data);
+            }
+            ).catch((err)=>console.log(err));
+
         props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, numberOfMonths * 30)
             .then((res) => {
                 const parsedData = parseData(res.data);
@@ -130,11 +179,29 @@ export default function LineChartWithMonthSelector(props) {
     if (!haveData)
         return <div>Loading...</div>
     else
-        return (<div>
-            <NumberOfMonthsSelector defaultValue={numberOfMonths} handler={handler} handler_args={handler_args}/>
-            <div>
-                <Line width={(props.width) ? props.width : 750} height={(props.height) ? props.height : 200}
-                      options={options} data={chartsData} />
-            </div>
-        </div>);
+        return (
+            <Box>
+            
+                <NumberOfMonthsSelector defaultValue={numberOfMonths} handler={handler} handler_args={handler_args}/>
+                <div>
+                    <Line width={(props.width) ? props.width : 750} height={(props.height) ? props.height : 200}
+                        options={options} data={chartsData} />
+                </div>
+           
+           
+                <DataGrid
+                    rows={rows}
+                    columns={transactionColumns}
+                    rowsPerPusernameOptions={[5]}
+                    checkboxSelection
+                    disableSelectionOnClick
+                    getRowId={(row) => row.time}
+                    style={{ height: "300px", widht: "100%"}}
+                    columnBuffer={10}
+                />
+        </Box>);
 }
+
+
+
+
