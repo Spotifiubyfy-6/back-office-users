@@ -5,9 +5,14 @@ import { useState, useEffect } from 'react';
 import ErrorBox from "./ErrorBox";
 import ImageButton from "./Datagrid/ImageButton"
 import UserProfileButton from "./Datagrid/UserProfileButton";
+import { TextField } from '@mui/material';
+import BasicModal from './ModalFunds';
 
 export default function DataGridUsers(props) {
-  
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [rows, setRows] = useState([]);
   const [deleteButtonError, setDeleteError] = useState('');
   const [userInfo, setUserInfo] = useState(null);
@@ -106,11 +111,85 @@ export default function DataGridUsers(props) {
         </strong>
         }
       },
+    },
+    {
+      field: 'blockUser',
+      headerName: 'Block User',
+      width: 150,
+      renderCell: (params) => {
+        if (params.row.user_type !== "admin") {
+          if (params.row.is_active) {
+            return (<strong>
+              <Button variant="contained" color="error" size="small" style={{marginLeft: 16, width: '100%'}}
+                      aria-label={'blockUser' + params.row.id}
+                      onClick={() => {
+                        props.apiHandler.blockUser(params.row.id)
+                        .then((res) => { 
+                          window.location.reload(false);
+                        })
+                        .catch((error) => {
+                            setDeleteError("Server is not available. Try again later.");
+                        })
+                      }}>
+                Block User
+              </Button>
+            </strong>);
+          } else {
+            return (<strong>
+          <Button variant="contained" color="success" size="small" style={{marginLeft: 16}}
+                  aria-label={'unblockUser' + params.row.id}
+                  onClick={() => {
+                    props.apiHandler.unblockUser(params.row.id)
+                    .then((res) => {
+                        window.location.reload(false);
+                    })
+                    .catch((error) => {
+                        setDeleteError("Server is not available. Try again later.");
+                    })
+                  }}>
+                  Unblock User
+                  </Button>
+            </strong>);
+                    
+        }
+      }
     }
-  ];
+  },
+  {
+    field: 'sendFunds',
+    headerName: 'Send Funds',
+    width: 150,
+    renderCell: (params) => {
+      
+       return <strong>
+            <BasicModal
+        userId={params.row.id}
+        apiHandler={props.apiHandler}
+      >
+        Send Funds
+      </BasicModal>
+        
+      </strong>
+    }
+  }
+];
+
+  function handleSearchBarChange(event) {
+    props.apiHandler.getUsersSlice(event.target.value)
+    .then((db_users) => {
+      setRows(db_users.data)
+      console.log(db_users.data)
+  })
+  .catch((error) => {
+    console.log(error)
+
+  })
+}
+
   return (
     <div >
       <ErrorBox errorString={deleteButtonError}/>
+      <TextField fullWidth label="Search" id="search" onChange={handleSearchBarChange}  />
       <DataGrid
         rows={rows}
         columns={columns}
