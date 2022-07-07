@@ -106,7 +106,6 @@ export default function MusicTable(props) {
                 })
             }
         }
-        
     }
     return (
         <div >
