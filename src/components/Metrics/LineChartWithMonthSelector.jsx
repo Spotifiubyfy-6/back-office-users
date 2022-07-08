@@ -26,41 +26,7 @@ ChartJS.register(
     Legend
 );
 
-const transactionColumns = [
-    { 
-      field: 'type',
-      headerName: 'Type',
-      width: 90
-    },
-    {
-        field: 'sender_id',
-        headerName: 'Sender Id',
-        width: 90
-    },
-    {
-      field: 'amount',
-      headerName: 'amount',
-      width: 90,
-    }, 
-    {
-      field: 'receiver_id',
-      headerName: 'receiver Id',
-      width: 90,
-    },
-    {
-      field: 'transaction_id',
-      headerName: 'Transaction Id',
-      sortable: false,
-      width: 90,
-      
-    },
-    {
-      field: 'time',
-      headerName: 'time',
-      sortable: true,
-      width: 90
-    }
-  ];
+
 
 
 
@@ -122,7 +88,7 @@ function handler(months, args) {
 
 export default function LineChartWithMonthSelector(props) {
 
-    const [rows, setRows] = useState([]);
+
     const [chartsData, setChartsData] = useState({
         labels: defaultLabels,
         datasets: [
@@ -139,11 +105,7 @@ export default function LineChartWithMonthSelector(props) {
 
     useEffect(() => {
         //get transactions
-        props.apiHandler.getTransactions()
-            .then((res) => {
-                setRows(res.data);
-            }
-            ).catch((err)=>console.log(err));
+        
 
         props.apiHandler.getMetricsDataFromDaysAgo(props.metrics_id, numberOfMonths * 30)
             .then((res) => {
@@ -187,18 +149,6 @@ export default function LineChartWithMonthSelector(props) {
                     <Line width={(props.width) ? props.width : 750} height={(props.height) ? props.height : 200}
                         options={options} data={chartsData} />
                 </div>
-           
-           
-                <DataGrid
-                    rows={rows}
-                    columns={transactionColumns}
-                    rowsPerPusernameOptions={[5]}
-                    checkboxSelection
-                    disableSelectionOnClick
-                    getRowId={(row) => row.time}
-                    style={{ height: "300px", widht: "100%"}}
-                    columnBuffer={10}
-                />
         </Box>);
 }
 
